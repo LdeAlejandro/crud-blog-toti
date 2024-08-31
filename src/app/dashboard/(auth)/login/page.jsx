@@ -4,14 +4,14 @@ import styles from './page.module.css'
 import { signIn, useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import Button from '@/components/Button/Button';
 
 const Login = () => {
 
+  //Alejandro
   const session = useSession();
   const router = useRouter();
-
-
-
+  
   if(session.status === "loading"){
     return <p>Loading...</p>;
   }
@@ -33,6 +33,7 @@ const Login = () => {
   //test4321
 
   return (
+    // Equipe FrontEnd
     <div className={styles.container}>
 
       <form className= {styles.form} onSubmit={handleSubmit}>
@@ -48,6 +49,7 @@ const Login = () => {
         Login with Google
       </button>
       
+      <Button url ="/dashboard/register" text="Cadastrar-se"/>
       </div>
   )
 }

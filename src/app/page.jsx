@@ -4,6 +4,8 @@ import Button from "@/components/Button/Button";
 
 export default function Home() {
   return (
+
+    //Equipe FrontEnd
     <div className={styles.container}>
       <div className={styles.item}>
         <h1 className={styles.title}>

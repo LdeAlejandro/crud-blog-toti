@@ -3,28 +3,19 @@ import styles from "./page.module.css";
 import Link from "next/link";
 import Image from "next/image";
 
-async function getData() {
-  const res = await fetch("http://localhost:3000/api/posts", {
-    cache: "no-store",
-  });
 
-  if (!res.ok) {
-    throw new Error("Failed to fetch data");
-  }
 
-  return res.json();
-}
+  // Aleksandr
 
-const Blog = async () => {
-  const data = await getData();
-
+const Blog = ()=>{
   return (
+    // Equipo front-end
     <div className={styles.mainContainer}>
-      {data.map((item) => (
-        <Link href={`/blog/${item._id}`} className={styles.container} key={item.id}>
+     
+        <Link href={`/blog/1`} className={styles.container} key={1}>
           <div className={styles.imageContainer}>
             <Image
-              src={item.img}
+              src=""
               alt=""
               width={400}
               height={250}
@@ -32,11 +23,11 @@ const Blog = async () => {
             />
           </div>
           <div className={styles.content}>
-            <h1 className={styles.title}>{item.title}</h1>
-            <p className={styles.desc}>{item.desc}</p>
+            <h1 className={styles.title}>titulo</h1>
+            <p className={styles.desc}>desc</p>
           </div>
         </Link>
-      ))}
+   
     </div>
   );
 };

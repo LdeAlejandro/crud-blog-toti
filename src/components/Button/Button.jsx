@@ -4,6 +4,8 @@ import Link from "next/link";
 
 const Button = ({ text, url }) => {
   return (
+    //Equipe FrontEnd
+    
     <Link href={url}>
       <button className={styles.container}>{text}</button>
     </Link>

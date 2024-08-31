@@ -6,6 +6,8 @@ import User from "@/models/User";
 import connect from "@/utils/db";
 import bcrypt from "bcryptjs";
 
+//Alejandro
+
 const handler = NextAuth({
   providers: [
     CredentialsProvider({

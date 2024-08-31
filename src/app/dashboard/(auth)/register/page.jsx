@@ -4,6 +4,7 @@ import styles from './page.module.css';
 import Link from 'next/link';
 import { useRouter } from "next/navigation"
 
+//Alejandro
 const Register = () => {
 
   const [error, setError] = useState(null);
@@ -36,6 +37,8 @@ const Register = () => {
   };
 
   return (
+
+    //Equipe FrontEnd
     <div className={styles.container}>Register
       <form className= {styles.form} onSubmit={handleSubmit}>
         <input type="text" placeholder='username' className={styles.input} required />

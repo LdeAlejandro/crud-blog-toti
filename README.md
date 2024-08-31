@@ -1,7 +1,7 @@
 Aqui está o formato em Markdown que você pode usar para documentar os comandos de instalação e suas finalidades:
 
-```markdown
-### Comandos de Instalação com Finalidade
+
+### Comandos de Instalação Finalidade
 
 Para instalar as dependências necessárias para o seu projeto, execute os seguintes comandos e confira para que serve cada um:
 

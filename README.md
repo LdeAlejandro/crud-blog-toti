@@ -1,36 +1,51 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+Aqui está o formato em Markdown que você pode usar para documentar os comandos de instalação e suas finalidades:
 
-## Getting Started
+```markdown
+### Comandos de Instalação com Finalidade
 
-First, run the development server:
+Para instalar as dependências necessárias para o seu projeto, execute os seguintes comandos e confira para que serve cada um:
+
+```bash
+npm install react
+npm install react-dom
+npm install bcryptjs
+npm install mongodb
+npm install mongoose
+npm install next
+npm install next-auth
+npm install swr
+```
+
+Para testar:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abra [http://localhost:3000](http://localhost:3000) no seu navegador para ver o resultado. O projeto irá atualizar automaticamente conforme você salva as mudanças.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+```bash
+# React é uma biblioteca JavaScript para construir interfaces de usuário, principalmente para aplicações de página única.
+npm install react
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+# React DOM fornece métodos específicos para o DOM que ajudam a renderizar uma aplicação React na web.
+npm install react-dom
 
-## Learn More
+# Bcryptjs é uma biblioteca JavaScript usada para hash de senhas, comumente utilizada em sistemas de autenticação.
+npm install bcryptjs
 
-To learn more about Next.js, take a look at the following resources:
+# MongoDB é o driver oficial do MongoDB para Node.js, permitindo que sua aplicação se conecte e interaja com bancos de dados MongoDB.
+npm install mongodb
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# Mongoose é uma biblioteca de Modelagem de Dados de Objetos (ODM) para MongoDB e Node.js que simplifica as interações com o banco de dados.
+npm install mongoose
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+# Next.js é um framework React para construir aplicações web renderizadas no servidor (SSR) e estáticas.
+npm install next
 
-## Deploy on Vercel
+# NextAuth.js é uma biblioteca de autenticação para aplicações Next.js, oferecendo suporte para OAuth, email e outros métodos de autenticação.
+npm install next-auth
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+# SWR (Stale-While-Revalidate) é uma biblioteca de busca de dados para React, desenvolvida pela Vercel, oferecendo recursos como cache e revalidação.
+npm install swr
+```

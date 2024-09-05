@@ -1,24 +1,29 @@
 "use client"
-import React from 'react'
+import { React, useEffect } from 'react';
 import styles from './page.module.css'
 import { signIn, useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import Button from '@/components/Button/Button';
+import { SendMail } from '@/utils/SendMail/SendMail';
+
 
 const Login = () => {
 
   //Alejandro
-  const session = useSession();
+  const { data: session, status } = useSession();
   const router = useRouter();
+
+  useEffect(() => {
+    if (status === "authenticated") {
+      router.push("/dashboard");
+    }
+  }, [status, router]);
   
-  if(session.status === "loading"){
+  if(status === "loading"){
     return <p>Loading...</p>;
   }
 
-  if(session.status === "authenticated"){
-    router?.push("/dashboard");
-  }
 
   const handleSubmit = async (e)=>{
     e.preventDefault();
@@ -26,8 +31,14 @@ const Login = () => {
     const email = e.target[0].value;
     const password = e.target[1].value;
 
-    signIn("credentials", {email, password})
+   signIn("credentials", {email, password})
+
+    
   };
+
+  const handleGoogleLogin = async ()=>{
+    signIn("google");
+  }
 
   //test4321@gmail.com
   //test4321
@@ -43,9 +54,9 @@ const Login = () => {
           Login
         </button>
       </form>
-      <Link href="dashboard/login">Login with an existing account</Link>
       
-      <button className={styles.button} onClick={() => signIn("google")}>
+      
+      <button className={styles.button} onClick={handleGoogleLogin}>
         Login with Google
       </button>
       

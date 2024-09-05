@@ -8,8 +8,13 @@ const userSchema = new Schema(
   {
     name: {
       type: String,
-      unique: true,
+      unique: false,
       required: true,
+    },
+    username:{
+        type: String,
+        unique: true,
+        required: true,
     },
     email: {
       type: String,
@@ -18,12 +23,23 @@ const userSchema = new Schema(
     },
     password: {
       type: String,
-      unique: true,
+      unique: false,
       required: true,
     },
+    verificationToken: {
+        type: String,
+        unique: false,
+        required: false,
+      },
+      verifiedAccount: {
+          type: Boolean,
+          unique: false,
+          required: false,
+          default: false,
+        },
   },
   { timestamps: true }
 );
 
-//If the User collection does not exist create a new one.
 export default mongoose.models.User || mongoose.model("User", userSchema);
+

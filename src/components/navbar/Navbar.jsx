@@ -12,14 +12,19 @@ const links = [
       url: "/",
     },
     {
-      id: 3,
+      id: 2,
       title: "Blog",
       url: "/blog",
     },
     {
-      id: 6,
+      id: 3,
       title: "Dashboard",
       url: "/dashboard",
+    },
+    {
+      id: 4,
+      title: "Profile",
+      url: "/dashboard/myprofile",
     },
   ];
 

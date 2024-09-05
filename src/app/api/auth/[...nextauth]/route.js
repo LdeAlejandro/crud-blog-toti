@@ -1,12 +1,11 @@
 import NextAuth from "next-auth";
-import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import User from "@/models/User";
 import connect from "@/utils/db";
 import bcrypt from "bcryptjs";
-
-//Alejandro
+import { TokenGenerator } from "@/utils/TokenGenerator/TokenGenerator";
+import { SendMail } from "@/utils/SendMail/SendMail";
 
 const handler = NextAuth({
   providers: [
@@ -14,13 +13,11 @@ const handler = NextAuth({
       id: "credentials",
       name: "Credentials",
       async authorize(credentials) {
-        //Check if the user exists.
+       
         await connect();
 
         try {
-          const user = await User.findOne({
-            email: credentials.email,
-          });
+          const user = await User.findOne({ email: credentials.email });
 
           if (user) {
             const isPasswordCorrect = await bcrypt.compare(
@@ -33,7 +30,6 @@ const handler = NextAuth({
             } else {
               throw new Error("Wrong Credentials!");
             }
-            
           } else {
             throw new Error("User not found!");
           }
@@ -45,12 +41,70 @@ const handler = NextAuth({
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+
+      async profile(profile) {
+      
+       
+
+        // Ensure profile is defined and contains email
+        if (!profile || !profile.email) {
+          console.error('Profile is undefined or missing email:', profile);
+          throw new Error('Profile information is missing.');
+        }
+
+        // Check if the user exists
+        const registeredUser = await User.findOne({ email: profile.email });
+
+        if (registeredUser) {
+      
+          return {
+            id: registeredUser._id.toString(), // Ensure _id is converted to string
+            name: registeredUser.name,
+            email: registeredUser.email,
+          };
+        } else {
+          console.log('Creating new user:');
+           const hashedPassword = await bcrypt.hash(TokenGenerator(), 5);
+           let newUserName = (profile.name+(TokenGenerator().slice(5)));
+           let checkUsername = await User.findOne({ username: newUserName});
+           while (checkUsername){
+            console.log('**************************************\n username already exist generating new username')
+            checkUsername = await User.findOne({ username: newUserName});
+            newUserName = (profile.name+(TokenGenerator().slice(5)));
+            console.log(checkUsername, newUserName)
+           }
+          const newUser = new User({
+            name: profile.name,
+            username: newUserName,
+            email: profile.email,
+            password: hashedPassword, 
+          });
+
+          try {
+            const res = await newUser.save();
+            if (res) {
+              console.log('User has been created');
+              const newRegisteredUser = await User.findOne({ email: newUser.email });
+             await SendMail(newRegisteredUser.email, 'Account Created', 'Your account has been created successfully.');
+              return {
+                id: newRegisteredUser.id.toString(), 
+                name: newRegisteredUser.name,
+                username: newRegisteredUser.username,
+                email: newRegisteredUser.email,
+              };
+            }
+          } catch (err) {
+            console.error('Error creating user:', err.message);
+            throw new Error('User not created');
+          }
+        }
+      },
     }),
   ],
+  
   pages: {
     error: "/dashboard/login",
   },
-
 });
 
 export { handler as GET, handler as POST };

@@ -14,6 +14,7 @@ npm install mongoose
 npm install next
 npm install next-auth
 npm install swr
+npm install nodemailer
 ```
 
 Para testar:
@@ -48,4 +49,7 @@ npm install next-auth
 
 # SWR (Stale-While-Revalidate) é uma biblioteca de busca de dados para React, desenvolvida pela Vercel, oferecendo recursos como cache e revalidação.
 npm install swr
+
+# biblioteca para envios de emails
+npm install nodemailer
 ```

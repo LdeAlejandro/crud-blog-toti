@@ -11,10 +11,10 @@ const userSchema = new Schema(
       unique: false,
       required: true,
     },
-    username:{
-        type: String,
-        unique: true,
-        required: true,
+    username: {
+      type: String,
+      unique: true,
+      required: true,
     },
     email: {
       type: String,
@@ -27,19 +27,22 @@ const userSchema = new Schema(
       required: true,
     },
     verificationToken: {
-        type: String,
-        unique: false,
-        required: false,
-      },
-      verifiedAccount: {
-          type: Boolean,
-          unique: false,
-          required: false,
-          default: false,
-        },
+      type: String,
+      unique: false,
+      required: false,
+    },
+    verifiedAccount: {
+      type: Boolean,
+      unique: false,
+      required: false,
+      default: false,
+    },
+    IsAdmin: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );
 
 export default mongoose.models.User || mongoose.model("User", userSchema);
-

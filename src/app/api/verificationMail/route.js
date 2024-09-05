@@ -1,5 +1,5 @@
 import nodemailer from 'nodemailer';
-import { generateVerificationToken } from '../../utils/VerificationToken/VerificationToken';
+import { TokenGenerator } from '@/utils/TokenGenerator/TokenGenerator';
 
 const transporter = nodemailer.createTransport({
   service: 'gmail',
@@ -19,7 +19,7 @@ export const POST = async (req, res) => {
       return res.status(400).json({ message: 'Email is required' });
     }
 
-    const token = generateVerificationToken();
+    const token = TokenGenerator();
     const verificationUrl = `${process.env.SITE_URL}/verify?token=${token}`;
 
     const mailOptions = {

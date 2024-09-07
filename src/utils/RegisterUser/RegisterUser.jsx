@@ -1,5 +1,5 @@
 // SendMail('letzalet@gmail.com', 'Conta Criada Crud', 'Sua conta foi criada com sucesso');
-export const RegisterUser = async (name, username, email, password) => {
+export const RegisterUser = async (name, email, password) => {
   try {
     const res = await fetch("/api/auth/register", {
       method: "POST",
@@ -8,7 +8,7 @@ export const RegisterUser = async (name, username, email, password) => {
       },
       body: JSON.stringify({
         name,
-        username,
+       // username,
         email,
         password,
       }),

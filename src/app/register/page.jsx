@@ -9,7 +9,7 @@ import Link from 'next/link';
 
 export default function Register() {
 //Alejandro
-  const [formData, setFormData] = useState({name:"", username: "", email: "", password:""})
+  const [formData, setFormData] = useState({name:"", /*username: "",*/ email: "", password:""})
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   const router = useRouter();
@@ -27,16 +27,14 @@ export default function Register() {
     e.preventDefault();
 
      // Call RegisterUser function and handle response
-     const result = await RegisterUser(formData.name, formData.username, formData.email, formData.password);
+     const result = await RegisterUser(formData.name, /*formData.username,*/ formData.email, formData.password);
 
      if (result.success) {
       
        setSuccessMessage('Account has been created');
        router.push('/dashboard');
         signIn("credentials", {email: formData.email, password: formData.password})
-        SendMail(formData.email, 'Sua conta foi criada', `${formData.name} sua conta foi criada.`);
     
-
      } else {
        setError(result.message || 'An unknown error occurred');
      }
@@ -58,7 +56,6 @@ export default function Register() {
     <div className={styles.container}>Register
     <form className= {styles.form} onSubmit={handleSubmit}>
       <input name="name" type="text" placeholder="nome" className={styles.input} onChange={onChangeHandle} required />
-      <input name = "username" type="text" placeholder="nome de usuario" className={styles.input} onChange={onChangeHandle} required />
       <input name="email" type="email" placeholder="email" className={styles.input} onChange={onChangeHandle} required />
       <input name="password" type="password" placeholder='password' className={styles.input} onChange={onChangeHandle} required />
       <button className={styles.button}>Register</button>

@@ -28,7 +28,7 @@ export const PATCH = async (request) => {
           { $set: { password: hashedPassword } }
         );
         console.log("New Password has been saved");
-        //SendMail(email, 'Senha resetada Crud', 'Sua senha foi resetada com succeso');
+        SendMail(email, 'Senha resetada Crud', 'Sua senha foi resetada com succeso');
 
         return new NextResponse("Password updated", {
           status: 201,

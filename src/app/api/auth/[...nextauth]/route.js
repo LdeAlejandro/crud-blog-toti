@@ -43,9 +43,6 @@ const handler = NextAuth({
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
 
       async profile(profile) {
-      
-       
-
         // Ensure profile is defined and contains email
         if (!profile || !profile.email) {
           console.error('Profile is undefined or missing email:', profile);
@@ -56,40 +53,60 @@ const handler = NextAuth({
         const registeredUser = await User.findOne({ email: profile.email });
 
         if (registeredUser) {
-      
+          registeredUser.GoogleAccount_id = profile.sub.toString();
+          await registeredUser.save();
           return {
-            id: registeredUser._id.toString(), // Ensure _id is converted to string
+            id: registeredUser._id.toString(), 
             name: registeredUser.name,
             email: registeredUser.email,
           };
+
         } else {
           console.log('Creating new user:');
            const hashedPassword = await bcrypt.hash(TokenGenerator(), 5);
-           let newUserName = (profile.name+(TokenGenerator().slice(5)));
-           let checkUsername = await User.findOne({ username: newUserName});
-           while (checkUsername){
-            console.log('**************************************\n username already exist generating new username')
-            checkUsername = await User.findOne({ username: newUserName});
-            newUserName = (profile.name+(TokenGenerator().slice(5)));
-            console.log(checkUsername, newUserName)
+          //  let newUserName = (profile.name+(TokenGenerator().slice(5)));
+          //  let checkUsername = await User.findOne({ username: newUserName});
+          //  while (checkUsername){
+          //   console.log('**************************************\n username already exist generating new username')
+          //   checkUsername = await User.findOne({ username: newUserName});
+          //   newUserName = (profile.name+(TokenGenerator().slice(5)));
+          //   console.log(checkUsername, newUserName)
+          //  }
+           const TokenExpiration = Date.now() + 3600000;
+           let token = (TokenGenerator()).toString();
+           let tokenAlreadyExist = await User.findOne({verificationToken: token});
+       
+           while (tokenAlreadyExist){
+             token = TokenGenerator();
+             tokenAlreadyExist = await User.findOne({verificationToken: token});
            }
+
           const newUser = new User({
+            GoogleAccount_id: profile.sub.toString(),
             name: profile.name,
-            username: newUserName,
+            //username: newUserName,
             email: profile.email,
-            password: hashedPassword, 
+            password: hashedPassword,
+            verificationToken: token.toString(),
+            verificationTokenExpiration: TokenExpiration,
           });
+
 
           try {
             const res = await newUser.save();
             if (res) {
               console.log('User has been created');
               const newRegisteredUser = await User.findOne({ email: newUser.email });
+   
              await SendMail(newRegisteredUser.email, 'Account Created', 'Your account has been created successfully.');
+
+             const verificationLink = `${process.env.SITE_URL}/verify?token=${token}`;
+             await SendMail(newRegisteredUser.email, 'Verifique sua conta', `${verificationLink}`);
+
               return {
                 id: newRegisteredUser.id.toString(), 
                 name: newRegisteredUser.name,
-                username: newRegisteredUser.username,
+                //username: newRegisteredUser.username,
                 email: newRegisteredUser.email,
               };
             }

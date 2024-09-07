@@ -6,6 +6,11 @@ const { Schema } = mongoose;
 
 const userSchema = new Schema(
   {
+    GoogleAccount_id: {
+      type: String,
+      unique: true,
+      required: false,
+    },
     name: {
       type: String,
       unique: false,
@@ -14,7 +19,7 @@ const userSchema = new Schema(
     username: {
       type: String,
       unique: true,
-      required: true,
+      required: false,
     },
     email: {
       type: String,
@@ -28,7 +33,11 @@ const userSchema = new Schema(
     },
     verificationToken: {
       type: String,
-      unique: false,
+      unique: true,
+      required: false,
+    },
+    verificationTokenExpiration: {
+      type: Date,  
       required: false,
     },
     verifiedAccount: {

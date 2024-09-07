@@ -60,7 +60,8 @@ const Login = () => {
         Login with Google
       </button>
       
-      <Button url ="/dashboard/register" text="Cadastrar-se"/>
+      <Button url ="/register" text="Cadastrar-se"/>
+      <Button url ="/resetpasswordrequest/" text="Esqueceu senha"/>
       </div>
   )
 }

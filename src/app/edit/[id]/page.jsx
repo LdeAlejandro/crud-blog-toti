@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 
 // Aleksandr
 
-const BlogPost = async () => {
+const BlogEdit = async () => {
 
 // Equipe Frontend
   return (
@@ -31,4 +31,4 @@ const BlogPost = async () => {
   );
 };
 
-export default BlogPost;
+export default BlogEdit;

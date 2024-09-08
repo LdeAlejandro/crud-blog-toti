@@ -13,7 +13,7 @@ const Blog = ()=>{
     <div className={styles.mainContainer}>
      
         <div>
-        <Link href={`/blog/1`} className={styles.container} key={1} >
+        <Link href={`/1`} className={styles.container} key={1} >
           <div className={styles.imageContainer}>
             <Image
               src=""

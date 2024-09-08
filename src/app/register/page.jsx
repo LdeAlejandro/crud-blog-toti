@@ -32,7 +32,7 @@ export default function Register() {
      if (result.success) {
       
        setSuccessMessage('Account has been created');
-       router.push('/dashboard');
+       router.push('/');
         signIn("credentials", {email: formData.email, password: formData.password})
     
      } else {

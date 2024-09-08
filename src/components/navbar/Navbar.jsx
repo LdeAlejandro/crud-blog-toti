@@ -13,18 +13,23 @@ const links = [
     },
     {
       id: 2,
-      title: "Blog",
-      url: "/blog",
+      title: "Criar Post",
+      url: "/createpost",
     },
     {
       id: 3,
-      title: "Dashboard",
-      url: "/dashboard",
+      title: "Cadastra-se",
+      url: "/register",
     },
     {
       id: 4,
+      title: "Login",
+      url: "/account/login",
+    },
+    {
+      id: 5,
       title: "Profile",
-      url: "/dashboard/myprofile",
+      url: "/account/myprofile",
     },
   ];
 

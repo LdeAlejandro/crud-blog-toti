@@ -47,7 +47,7 @@ export default function Register() {
   }
 
   if(session.status === "authenticated"){
-    router?.push("/dashboard");
+    router?.push("/");
     console.log(session.status);
   }
 

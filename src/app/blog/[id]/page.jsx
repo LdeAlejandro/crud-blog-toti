@@ -28,18 +28,19 @@ const BlogPost = async () => {
           </div>
         </div>
         <div className={styles.imageContainer}>
-          <Image
+          {/* <Image
             src=""
             alt=""
             fill={true}
             className={styles.image}
-          />
+          /> */}
         </div>
       </div>
       <div className={styles.content}>
         <p className={styles.text}>
          content
         </p>
+        <button>Editar</button><button>excluir</button>
       </div>
     </div>
   );

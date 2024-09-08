@@ -22,7 +22,7 @@ if(session.status === "loading"){
 }
 
 if(session.status === "unauthenticated" ){
-  router?.push("/dashboard/login");
+  router?.push("/account/login");
 }
 
 

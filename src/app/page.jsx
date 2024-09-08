@@ -1,24 +1,38 @@
-import Image from "next/image";
+import React from "react";
 import styles from "./page.module.css";
-import Button from "@/components/Button/Button";
+import Link from "next/link";
+import Image from "next/image";
 
-export default function Home() {
+
+
+  // Aleksandr
+
+const Blog = ()=>{
   return (
+    // Equipo front-end
+    <div className={styles.mainContainer}>
+     
+        <div>
+        <Link href={`/blog/1`} className={styles.container} key={1} >
+          <div className={styles.imageContainer}>
+            <Image
+              src=""
+              alt=""
+              width={400}
+              height={250}
+              className={styles.image}
+            />
+          </div>
+          <div className={styles.content}>
+            <h1 className={styles.title}>titulo</h1>
 
-    //Equipe FrontEnd
-    <div className={styles.container}>
-      <div className={styles.item}>
-        <h1 className={styles.title}>
-          Better design for your digital products.
-        </h1>
-        <p className={styles.desc}>
-          Turning your Idea into Reality. We bring together the teams from the
-          global tech industry.
-        </p>
-      </div>
-      <div className={styles.item}>
-        <Image src={"/hero.png"} width={1000} height={500} alt="" className={styles.img} />
-      </div>
+          </div>
+        </Link>
+        <button>Editar</button>
+        </div>
+
     </div>
   );
-}
+};
+
+export default Blog;

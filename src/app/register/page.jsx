@@ -1,68 +1,141 @@
 'use client';
-import {useState } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { RegisterUser } from '@/utils/RegisterUser/RegisterUser';
 import { signIn, useSession } from 'next-auth/react';
 import styles from './page.module.css';
-import { SendMail } from '@/utils/SendMail/SendMail';
 import Link from 'next/link';
 
 export default function Register() {
-//Alejandro
-  const [formData, setFormData] = useState({name:"", /*username: "",*/ email: "", password:""})
-  const [error, setError] = useState('');
-  const [successMessage, setSuccessMessage] = useState('');
+  const [formData, setFormData] = useState({ nome: '', email: '', senha: '' });
+  const [erro, setErro] = useState({});
+  const [mensagemSucesso, setMensagemSucesso] = useState('');
+  const [mostrarModal, setMostrarModal] = useState(false);
   const router = useRouter();
   const session = useSession();
 
-  const onChangeHandle =(e) =>{
-    const {name, value} = e.target;
-    setFormData(prevState => 
-      ({...prevState, 
-      [name]: value}))
-      
-  }
+  const onChangeHandle = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevState) => ({ ...prevState, [name]: value }));
+  };
 
-  const handleSubmit = async (e)=>{
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-     // Call RegisterUser function and handle response
-     const result = await RegisterUser(formData.name, /*formData.username,*/ formData.email, formData.password);
+    const novosErros = {};
 
-     if (result.success) {
-      
-       setSuccessMessage('Account has been created');
-       router.push('/dashboard');
-        signIn("credentials", {email: formData.email, password: formData.password})
+   
+    if (!formData.nome) {
+      novosErros.nome = 'Por favor, insira seu nome.';
+    }
+
+   
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      novosErros.email = 'Por favor, insira um endereço de email válido.';
+    }
+
     
-     } else {
-       setError(result.message || 'An unknown error occurred');
-     }
+    if (!formData.senha) {
+      novosErros.senha = 'Por favor, insira uma senha.';
+    }
+
+    
+    setErro(novosErros);
+
+    
+    if (Object.keys(novosErros).length > 0) {
+      setTimeout(() => {
+        setErro({});
+      }, 3000); 
+      return;
+    }
+
+    
+    const result = await RegisterUser(formData.nome, formData.email, formData.senha);
+
+    if (result.success) {
+      setMensagemSucesso('Conta criada com sucesso');
+      setMostrarModal(true);
+      setTimeout(() => {
+        setMostrarModal(false);
+        router.push('/dashboard');
+        signIn('credentials', { email: formData.email, password: formData.senha });
+      }, 3000);
+    } else if (result.message.includes('already exists')) {
+      setErro({ email: 'Este email já está registrado.' });
+      setTimeout(() => {
+        setErro({});
+      }, 3000); 
+    } else {
+      setErro({ geral: result.message || 'Ocorreu um erro desconhecido' });
+      setTimeout(() => {
+        setErro({});
+      }, 3000); 
+    }
+  };
+
+  if (session.status === 'loading') {
+    return (
+      <div className={styles.loadingContainer}>
+        <p>Carregando...</p>
+      </div>
+    );
   }
 
-
-  
-  if(session.status === "loading"){
-    return <p>Loading...</p>;
-  }
-
-  if(session.status === "authenticated"){
-    router?.push("/dashboard");
-    console.log(session.status);
+  if (session.status === 'authenticated') {
+    router.push('/dashboard');
   }
 
   return (
-      //Equipe FrontEnd
-    <div className={styles.container}>Register
-    <form className= {styles.form} onSubmit={handleSubmit}>
-      <input name="name" type="text" placeholder="nome" className={styles.input} onChange={onChangeHandle} required />
-      <input name="email" type="email" placeholder="email" className={styles.input} onChange={onChangeHandle} required />
-      <input name="password" type="password" placeholder='password' className={styles.input} onChange={onChangeHandle} required />
-      <button className={styles.button}>Register</button>
-      {error && "Something went wrong!"}
-      {successMessage && 'User created'}
-    </form>
-    {<Link href="/dashboard/login">Login with an existing account</Link>}
-  </div>
+    <div className={styles.container}>
+      <h2>Registrar</h2>
+      <form className={styles.form} onSubmit={handleSubmit}>
+        {/* Nome */}
+        <input
+          name="nome"
+          type="text"
+          placeholder="Nome"
+          className={styles.input}
+          onChange={onChangeHandle}
+        />
+        {erro.nome && <p className={styles.error}>{erro.nome}</p>}
+
+        {/* Email */}
+        <input
+          name="email"
+          type="email"
+          placeholder="Email"
+          className={styles.input}
+          onChange={onChangeHandle}
+        />
+        {erro.email && <p className={styles.error}>{erro.email}</p>}
+
+        {/* Senha */}
+        <input
+          name="senha"
+          type="password"
+          placeholder="Senha"
+          className={styles.input}
+          onChange={onChangeHandle}
+        />
+        {erro.senha && <p className={styles.error}>{erro.senha}</p>}
+
+        <button className={styles.button}>Registrar</button>
+        {erro.geral && <p className={styles.error}>{erro.geral}</p>}
+      </form>
+      <Link href="/dashboard/login" className={styles.loginLink}>
+        Login com uma conta existente
+      </Link>
+
+      {mostrarModal && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.modal}>
+            <h3>Registro bem-sucedido!</h3>
+            <p>Sua conta foi criada com sucesso.</p>
+          </div>
+        </div>
+      )}
+    </div>
   );
 }

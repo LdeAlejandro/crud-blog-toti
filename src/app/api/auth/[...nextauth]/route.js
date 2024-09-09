@@ -59,6 +59,7 @@ const handler = NextAuth({
             id: registeredUser._id.toString(), 
             name: registeredUser.name,
             email: registeredUser.email,
+            image: profile.picture, // Aquí incluimos la imagen
           };
 
         } else {
@@ -108,6 +109,7 @@ const handler = NextAuth({
                 name: newRegisteredUser.name,
                 //username: newRegisteredUser.username,
                 email: newRegisteredUser.email,
+                image: profile.picture, 
               };
             }
           } catch (err) {
@@ -121,6 +123,21 @@ const handler = NextAuth({
   
   pages: {
     error: "/dashboard/login",
+  },
+
+  callbacks: {
+    async session({ session, token }) {      
+      session.user.id = token.id;
+      session.user.image = token.picture; 
+      return session;
+    },
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+        token.picture = user.image; 
+      }
+      return token;
+    },
   },
 });
 

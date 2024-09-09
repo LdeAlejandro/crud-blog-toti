@@ -6,15 +6,25 @@ Aqui está o formato em Markdown que você pode usar para documentar os comandos
 Para instalar as dependências necessárias para o seu projeto, execute os seguintes comandos e confira para que serve cada um:
 
 ```bash
-npm install react
-npm install react-dom
+npm install @fortawesome/free-brands-svg-icons
+npm install @fortawesome/free-solid-svg-icons
+npm install @fortawesome/react-fontawesome
 npm install bcryptjs
+npm install emoji-picker-react
 npm install mongodb
 npm install mongoose
 npm install next
 npm install next-auth
-npm install swr
+npm install next-themes
+npm install node-mailer
 npm install nodemailer
+npm install quill
+npm install react
+npm install react-dom
+npm install react-icons
+npm install react-quill
+npm install swr
+
 ```
 
 Para testar:

@@ -94,7 +94,7 @@ const Blog = () => {
           <div className={styles.mainContainer}>
             {sortedPosts.map((post) => (
               <Link
-                href={`/${post._id}`}
+                href={`/blog/${post._id}`}
                 className={styles.postCard}
                 key={post._id}
               >
@@ -117,9 +117,8 @@ const Blog = () => {
                   <p className={styles.readingTime}>
                     {calculateReadingTime(post.desc)} min de leitura
                   </p>
-                  <button>Editar</button>
 
-                  {/* Botão para curtir
+                  {/* Botão para curtir */}
                   <div className={styles.likeContainer}>
                     <button
                       className={styles.likeButton}
@@ -130,7 +129,7 @@ const Blog = () => {
                     >
                       👍 {likes[post._id] || 0} Curtidas
                     </button>
-                  </div> */}
+                  </div>
                 </div>
               </Link>
             ))}
@@ -141,7 +140,7 @@ const Blog = () => {
       {/* Botão flutuante para criar novo post */}
       <button
         className={styles.createPostButton}
-        onClick={() => (window.location.href = "/createpost")}
+        onClick={() => (window.location.href = "/blog/create-post")}
       >
         ➕ Criar Post
       </button>

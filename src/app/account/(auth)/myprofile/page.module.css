@@ -1,0 +1,155 @@
+.profileContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
+    min-height: 100vh;
+    text-align: center;
+    margin-top: -150px; 
+  }
+  
+  .title {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  .userInfo {
+    margin-bottom: 20px;
+  }
+  
+  .avatarContainer {
+    margin-top: 10px;
+  }
+  
+  .avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+  }
+  
+  .changePasswordBtn, .logoutBtn, .submitButton {
+    background-color: var(--button-bg-color);
+    color: var(--button-text-color);
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+  }
+  
+  .changePasswordBtn:hover, .logoutBtn:hover, .submitButton:hover {
+    background-color: #ffcc00;
+  }
+  
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  .inputGroup {
+    position: relative;
+  }
+  
+  .input {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 100%;
+    background-color: var(--input-bg-color);
+    color: var(--text-color);
+  }
+  
+  .togglePassword {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-color);
+  }
+  
+  .passwordMsg {
+    color: red;
+    margin-top: 10px;
+  }
+  
+  .notLoggedIn {
+    text-align: center;
+    margin-top: 50px;
+  }
+  
+  @media (max-width: 768px) {
+    .profileContainer {
+      padding: 10px;
+      margin-top: 5vh;
+    }
+  }
+  .notLoggedIn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: var(--bg-color); 
+    color: var(--text-color); 
+    text-align: center;
+    padding: 20px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    margin-top: -150px;
+  }
+  
+  .notLoggedIn p {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 20px;
+  }
+  
+  .notLoggedIn button {
+    background-color: var(--button-bg-color);
+    color: var(--button-text-color);
+    padding: 12px 20px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .notLoggedIn button:hover {
+    background-color: #ffcc00;
+  }
+  
+  .notLoggedIn .loginMessage {
+    margin-bottom: 20px;
+    font-size: 18px;
+    font-weight: 500;
+  }
+  
+  @media (max-width: 768px) {
+    .notLoggedIn {
+      padding: 10px;
+      text-align: center;
+    }
+  
+    .notLoggedIn p {
+      font-size: 20px;
+    }
+  
+    .notLoggedIn button {
+      font-size: 16px;
+      padding: 10px 15px;
+    }
+  }
+  

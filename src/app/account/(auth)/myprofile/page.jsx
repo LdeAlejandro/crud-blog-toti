@@ -2,15 +2,13 @@
 
 import { useSession, signIn, signOut } from "next-auth/react";
 import { useEffect, useState } from "react";
-import { ChangePassword } from "@/utils/ChangePassword/ChangePassword";
 import Button from "@/components/Button/Button";
+import styles from "./page.module.css"; 
 
 const UserProfile = () => {
-  //Alejandro
   const { data: session, status } = useSession();
   const [changePasswordUI, setChangePasswordUI] = useState(false);
-  const [changePasswordBtnTxt, setChangePasswordBtnTxt] =
-    useState("Trocar senha");
+  const [changePasswordBtnTxt, setChangePasswordBtnTxt] = useState("Trocar senha");
   const [formData, setFormData] = useState({
     currentPassword: "",
     newPasswordField1: "",
@@ -28,21 +26,19 @@ const UserProfile = () => {
 
   if (!session) {
     return (
-      <div>
+      <div className={styles.notLoggedIn}>
         <p>You are not logged in.</p>
-        <Button url ="/dashboard/login" text="Log in"/>
+        <Button url="/dashboard/login" text="Log in" />
       </div>
     );
   }
-
-
 
   const { user } = session;
 
   const changePasswordMenu = (e) => {
     setChangePasswordUI((prevState) => !prevState);
     setChangePasswordBtnTxt((prevText) =>
-      prevText === "Trocar senha" ? "cancelar" : "Trocar senha"
+      prevText === "Trocar senha" ? "Cancelar" : "Trocar senha"
     );
   };
 
@@ -55,17 +51,14 @@ const UserProfile = () => {
 
   const handleOnChange = (e) => {
     const { id, value } = e.target;
-
     setFormData((prevState) => ({
       ...prevState,
       [id]: value,
     }));
-    console.log(formData);
   };
 
   const handleReset = async (e) => {
     e.preventDefault();
-
     if (
       formData.newPasswordField1 === formData.newPasswordField2 &&
       formData.currentPassword !== formData.newPasswordField1
@@ -76,88 +69,92 @@ const UserProfile = () => {
           user.email,
           formData.newPasswordField2
         );
-       
+
         if (res.status === 401) {
           setPasswordMsg("Senha incorreta");
-         } else {
+        } else {
           setPasswordMsg("Senha atualizada com sucesso");
         }
       } catch (error) {
         setPasswordMsg("Erro ao mudar a senha");
-        console.error('Error in handleReset:', error);
       }
-     
     } else if (formData.newPasswordField1 !== formData.newPasswordField2) {
       setPasswordMsg("As senhas não são iguais.");
     } else {
-      setPasswordMsg("A senha nova não pode ser sua senha antiga. ");
+      setPasswordMsg("A senha nova não pode ser sua senha antiga.");
     }
   };
 
-  // Empty dependency array to run only once
-
   return (
-    <div>
-      my profile
-      <p>Logged in as:</p>
-      <p>Name: {user.name}</p>
-      <p>Email: {user.email}</p>
-      <p>
-        Image:{" "}
-        <img
-          src={user.image}
-          alt="Profile Image"
-          style={{ width: "50px", height: "50px" }}
-        />
-      </p>
-      <button onClick={changePasswordMenu}>{changePasswordBtnTxt}</button>
+    <div className={styles.profileContainer}>
+      <h1 className={styles.title}>My Profile</h1>
+      <div className={styles.userInfo}>
+        <p><strong>Name:</strong> {user.name}</p>
+        <p><strong>Email:</strong> {user.email}</p>
+        {user.image && (
+          <div className={styles.avatarContainer}>
+            <img
+              src={user.image}
+              alt="Profile Image"
+              className={styles.avatar}
+            />
+          </div>
+        )}
+      </div>
+      <button onClick={changePasswordMenu} className={styles.changePasswordBtn}>
+        {changePasswordBtnTxt}
+      </button>
       {changePasswordUI && (
-        <form onSubmit={handleReset}>
-          <div>
+        <form onSubmit={handleReset} className={styles.form}>
+          <div className={styles.inputGroup}>
             <input
               type={showPassword.currentPassword ? "text" : "password"}
-              name="currentPassword"
               id="currentPassword"
               placeholder="Senha atual"
               onChange={handleOnChange}
               required
+              className={styles.input}
             />
             <button
               type="button"
               onClick={() => togglePasswordVisibility("currentPassword")}
+              className={styles.togglePassword}
             >
               {showPassword.currentPassword ? "Ocultar" : "Mostrar"}
             </button>
           </div>
-          <div>
+          <div className={styles.inputGroup}>
             <input
               type={showPassword.newPassword ? "text" : "password"}
-              name="newpassword"
               id="newPasswordField1"
               placeholder="Senha nova"
               required
               onChange={handleOnChange}
+              className={styles.input}
             />
             <input
               type={showPassword.newPassword ? "text" : "password"}
-              name="newPassword"
               id="newPasswordField2"
               placeholder="Repita a senha nova"
-              onChange={handleOnChange}
               required
+              onChange={handleOnChange}
+              className={styles.input}
             />
             <button
               type="button"
               onClick={() => togglePasswordVisibility("newPassword")}
+              className={styles.togglePassword}
             >
               {showPassword.newPassword ? "Ocultar" : "Mostrar"}
             </button>
           </div>
-          <button>Trocar</button>
-          {passwordMsg && passwordMsg}
+          <button className={styles.submitButton}>Trocar</button>
+          {passwordMsg && <p className={styles.passwordMsg}>{passwordMsg}</p>}
         </form>
       )}
-      <button onClick={() => signOut()}>Deslogar</button>
+      <button onClick={() => signOut()} className={styles.logoutBtn}>
+        Deslogar
+      </button>
     </div>
   );
 };

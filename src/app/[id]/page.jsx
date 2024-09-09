@@ -2,48 +2,62 @@ import React from "react";
 import styles from "./page.module.css";
 import Image from "next/image";
 import { notFound } from "next/navigation";
+import connect from "@/utils/db";
+import Post from "@/models/Post";
 
-// Aleksandr
 
-const BlogPost = async () => {
+const BlogPost = async ({ params }) => {
+  const { id } = params;
 
-// Equipe Frontend
-  return (
-    <div className={styles.container}>
-      <div className={styles.top}>
-        <div className={styles.info}>
-          <h1 className={styles.title}>titulo</h1>
-          <p className={styles.desc}>
-            desc
-          </p>
-          <div className={styles.author}>
+  try {
+    await connect();
+    const post = await Post.findById(id);
+
+    if (!post) {
+      return notFound();
+    }
+
+    return (
+      <div className={styles.container}>
+        <div className={styles.top}>
+          <div className={styles.info}>
+            <h1 className={styles.title}>{post.title}</h1>
+            <p className={styles.desc}>{post.desc}</p>
+            <div className={styles.author}>
+              <Image
+                src={post.img}
+                alt={post.title}
+                width={40}
+                height={40}
+                className={styles.avatar}
+              />
+              <span className={styles.username}>Author: {post.username}</span>
+            </div>
+          </div>
+          <div className={styles.imageContainer}>
             <Image
-              src=""
-              alt=""
-              width={40}
-              height={40}
-              className={styles.avatar}
+              src={post.img}
+              alt={post.title}
+              fill={true}
+              className={styles.image}
+              objectFit="cover"
             />
-            <span className={styles.username}>username</span>
           </div>
         </div>
-        <div className={styles.imageContainer}>
-          {/* <Image
-            src=""
-            alt=""
-            fill={true}
-            className={styles.image}
-          /> */}
+        <div className={styles.content}>
+          <div
+            className={styles.text}
+            dangerouslySetInnerHTML={{ __html: post.content }}
+          />
+            <button>Editar</button> <button>Deletar</button>
         </div>
+      
       </div>
-      <div className={styles.content}>
-        <p className={styles.text}>
-         content
-        </p>
-        <button>Editar</button><button>excluir</button>
-      </div>
-    </div>
-  );
+    );
+  } catch (error) {
+    console.error("Error fetching post:", error);
+    return notFound();
+  }
 };
 
 export default BlogPost;

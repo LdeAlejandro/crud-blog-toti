@@ -1,26 +1,238 @@
-
 .container {
-
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: var(--bg-color); 
+  color: var(--text-color); 
+  min-height: calc(100vh - 100px); 
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.item {
- 
+.heroSection {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 40px 0;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.textContainer {
+  flex: 1;
+  padding-right: 20px;
 }
 
 .title {
- 
+  font-size: 3rem;
+  font-weight: bold;
+  color: var(--text-color); 
+  margin-bottom: 20px;
+}
+
+.desc {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+  color: var(--text-color); 
+}
+
+.ctaButton {
+  font-size: 1.2rem;
+  padding: 10px 20px;
+  background-color: #ffcc00;
+  color: #000;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.ctaButton:hover {
+  background-color: #f7b500;
+}
+
+.imageContainer {
+  flex: 1;
 }
 
 .img {
- 
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 
+.postsSection {
+  margin-top: 40px;
+  width: 100%;
+  max-width: 1200px; 
+}
 
-.desc {
+.subTitle {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: var(--text-color); 
+}
+
+.postGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); 
+  gap: 20px;
+}
+
+.postCard {
+  background-color: var(--post-bg-color); 
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, background-color 0.3s ease;
+  width: 100%; 
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;  
+  min-height: 150px; 
+}
+
+.postCard:hover {
+  transform: scale(1.05);
+}
+
+.postCard h3 {
+  margin-bottom: 10px;
+  font-size: 1.5rem;
+}
+
+.postCard p {
+  margin-top: auto;
+  font-size: 1rem;
+}
+
+
+.featuresSection {
+  margin-top: 60px;
+  width: 100%;
+  max-width: 1200px; 
+}
+
+.featureGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  justify-items: center;
+}
+
+.featureItem {
+  text-align: center;
+  max-width: 300px;
+}
+
+.featureItem h3 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  color: var(--text-color); 
+}
+
+.featureItem p {
+  font-size: 1rem;
+  color: var(--text-color); 
+}
+
+.message {
+  font-size: 1.2rem;
+  text-align: center;
+  margin: 20px 0;
+  color: #333;
+}
+
+.errorMessage {
+  font-size: 1.2rem;
+  text-align: center;
+  margin: 20px 0;
+  color: red;
+}
+
+.noPostsMessage {
+  text-align: center;
+  margin: 40px 0;
+  padding: 20px;
   
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.button {
- 
+.noPostsMessage h3 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.noPostsMessage p {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+}
+
+.createPostButton {
+  font-size: 1.2rem;
+  padding: 10px 20px;
+  background-color: #ffcc00;
+  color: #000;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.createPostButton:hover {
+  background-color: #f7b500;
+}
+
+
+
+
+@media (max-width: 768px) {
+  .heroSection {
+    flex-direction: column;
+    text-align: center;
+    padding: 20px 0;
+  }
+
+  .textContainer {
+    padding-right: 0; 
+  }
+
+  .title {
+    font-size: 2.5rem; 
+  }
+
+  .desc {
+    font-size: 1rem; 
+  }
+
+  .img {
+    margin-top: 20px; 
+  }
+
+  .postGrid {
+    grid-template-columns: 1fr; 
+  }
+
+  .featureGrid {
+    grid-template-columns: 1fr; 
+  }
+}
+
+
+@media (max-width: 480px) {
+  .title {
+    font-size: 2rem; 
+  }
+
+  .desc {
+    font-size: 0.9rem; 
+  }
+
+  .ctaButton {
+    font-size: 1rem; 
+    padding: 8px 16px;
+  }
 }

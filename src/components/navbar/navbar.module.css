@@ -1,15 +1,172 @@
 .container {
-    
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  background-color: var(--navbar-bg-color); 
+  color: var(--text-color); 
+  position: relative;
+  width: 100%;
+  z-index: 100; 
+}
+
+
+.links {
+  display: flex;
+  gap: 20px;
+}
+
+.link {
+  color: var(--text-color);
+  text-decoration: none;
+  transition: color 0.2s ease-in-out;
+}
+
+.link:hover {
+  color: #ffcc00;
+}
+
+
+.userSection {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.userName {
+  font-size: 16px;
+  color: var(--text-color);
+}
+
+.userImage {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.defaultIcon {
+  font-size: 40px;
+  color: var(--text-color);
+}
+
+.logout {
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.logout:hover {
+  background-color: #e60000;
+}
+
+.loginSection {
+  display: flex;
+  align-items: center;
+}
+
+.loginLink {
+  color: white;
+  text-decoration: none;
+  padding: 8px 12px;
+  background-color: #0066ff;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.loginLink:hover {
+  background-color: #0047b3;
+}
+
+
+.rightSection {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px;
   }
-  
-  .logo {
-   
+
+  .userSection {
+    flex-direction: row;
+    gap: 10px;
+    justify-content: space-between;
+    width: 100%;
+    padding: 10px 0;
   }
-  
+
   .links {
-  
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    text-align: center;
+    background-color: var(--bg-color);
+    position: absolute;
+    top: 60px;
+    left: 0;
   }
-  
+
+  .links.active {
+    display: flex;
+  }
+
+  .menuIcon {
+    display: block;
+    cursor: pointer;
+    margin-left: auto;
+  }
+
+  .bar {
+    width: 25px;
+    height: 3px;
+    background-color: var(--text-color);
+    margin: 5px 0;
+    transition: 0.4s;
+  }
+
   .logout {
-   
+    margin-left: auto;
   }
+
+  .userName {
+    font-size: 14px;
+  }
+
+  .userImage {
+    width: 30px;
+    height: 30px;
+  }
+}
+
+@media (min-width: 769px) {
+  .menuIcon {
+    display: none;
+  }
+
+  .links {
+    display: flex;
+  }
+}
+
+
+.themeToggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 24px;
+  color: var(--text-color);
+}
+
+.themeIcon {
+  font-size: 24px;
+}

@@ -8,6 +8,7 @@ import Image from "next/image";
 import dynamic from "next/dynamic";
 import EmojiPicker from "emoji-picker-react";
 
+
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 import "react-quill/dist/quill.snow.css";
 
@@ -34,17 +35,25 @@ const Dashboard = () => {
 
   useEffect(() => {
     if (status === "unauthenticated") {
-      router.push("/dashboard/login");
+        router.push("/account/login");
     }
-  }, [status, router]);
+}, [status, router]);
+
 
   if (status === "loading") {
     return <p>Carregando...</p>;
   }
+  
+
+ 
+   console.log(session)
+
 
   const handleEmojiClick = (emojiObject) => {
     setContent((prevContent) => prevContent + emojiObject.emoji);
   };
+
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();

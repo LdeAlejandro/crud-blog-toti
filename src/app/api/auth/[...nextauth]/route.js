@@ -118,9 +118,18 @@ const handler = NextAuth({
       },
     }),
   ],
-  
+
+  callbacks: {
+    async session({ session }) {
+        const user = await User.findOne({ email: session.user.email });
+      // Add custom attribute to session
+      session.user.admin = user.IsAdmin; // Example: Adding a role attribute
+      return session;
+    },
+    
+  },
   pages: {
-    error: "/dashboard/login",
+    error: "/login",
   },
 });
 

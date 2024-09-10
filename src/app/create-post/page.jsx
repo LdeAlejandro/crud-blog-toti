@@ -1,22 +1,22 @@
-"use client";
-import { useSession } from "next-auth/react";
-import styles from "./page.module.css";
-import React, { useEffect, useState } from "react";
-import useSWR from "swr";
-import { useRouter } from "next/navigation";
-import Image from "next/image";
-import dynamic from "next/dynamic";
-import EmojiPicker from "emoji-picker-react";
+"use client"
+import { useSession } from "next-auth/react"
+import styles from "./page.module.css"
+import React, { useEffect, useState } from "react"
+import useSWR from "swr"
+import { useRouter } from "next/navigation"
+import Image from "next/image"
+import dynamic from "next/dynamic"
+import EmojiPicker from "emoji-picker-react"
 
-const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
-import "react-quill/dist/quill.snow.css";
+const ReactQuill = dynamic(() => import("react-quill"), { ssr: false })
+import "react-quill/dist/quill.snow.css"
 
 const isValidUrl = (url) => {
-  const urlRegex = /^(https?:\/\/[^\s$.?#].[^\s]*)$/;
-  return urlRegex.test(url);
-};
+  const urlRegex = /^(https?:\/\/[^\s$.?#].[^\s]*)$/
+  return urlRegex.test(url)
+}
 
-const Dashboard = () => {
+const CreatePostPage = () => {
   const { data: session, status } = useSession();
   const router = useRouter();
   const [content, setContent] = useState("");
@@ -26,6 +26,9 @@ const Dashboard = () => {
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [expandedPostId, setExpandedPostId] = useState(null);
 
+
+
+
   const fetcher = (...args) => fetch(...args).then((res) => res.json());
   const { data, mutate, isLoading } = useSWR(
     `api/posts?username=${session?.user?.name}`,
@@ -34,7 +37,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     if (status === "unauthenticated") {
-      router.push("/dashboard/login");
+      router.push("/dashboard/login")
     }
   }, [status, router]);
 
@@ -46,15 +49,18 @@ const Dashboard = () => {
     setContent((prevContent) => prevContent + emojiObject.emoji);
   };
 
+
+  console.log(content)
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const title = e.target[0].value;
-    const desc = e.target[1].value;
-    let img = e.target[2].value;
+    // const desc = e.target[1].value;
+    let img = e.target[1].value;
     
     const novosErros = {};
     if (!title) novosErros.title = "O título é obrigatório.";
-    if (!desc) novosErros.desc = "A descrição é obrigatória.";
+    // if (!desc) novosErros.desc = "A descrição é obrigatória.";
     if (!img || !isValidUrl(img)) {
       img = "https://camarasal.com/wp-content/uploads/2020/08/default-image-5-1.jpg";
       novosErros.img = "A URL da imagem é obrigatória e deve ser uma URL válida.";
@@ -67,17 +73,22 @@ const Dashboard = () => {
       return;
     }
 
+
+
     try {
+  
       const res = await fetch("/api/posts", {
         method: "POST",
         body: JSON.stringify({
           title,
-          desc,
+          // desc,
           img,
           content,
-          username: session.user.name,
+          name: session.user.name,
         }),
       });
+
+      console.log("ola")
 
       if (res.ok) {
         setMensagem("Post criado com sucesso.");
@@ -173,8 +184,8 @@ const Dashboard = () => {
           <h1>Adicionar novo post</h1>
           <input type="text" placeholder="Título" className={styles.input} />
           {erros.title && <p className={styles.error}>{erros.title}</p>}
-          <input type="text" placeholder="Descrição" className={styles.input} />
-          {erros.desc && <p className={styles.error}>{erros.desc}</p>}
+          {/* <input type="text" placeholder="Descrição" className={styles.input} />
+          {erros.desc && <p className={styles.error}>{erros.desc}</p>} */}
           <input type="text" placeholder="URL da imagem" className={styles.input} />
           {erros.img && <p className={styles.error}>{erros.img}</p>}
 
@@ -212,4 +223,4 @@ const Dashboard = () => {
   return null;
 };
 
-export default Dashboard;
+export default CreatePostPage

@@ -6,15 +6,17 @@ import Post from "@/models/Post";
 export const GET = async (request, {params}) => {
 
     const {id} = params;
+    console.log(id)
     //fetch
 
     try{
        await connect();
 
-       const post = await Post.findById(id);
+       const post = await Post.findById({_id: id});
        return new NextResponse(JSON.stringify(post), {status: 200});
 
     }catch(err){
+        console.log(err)
         return new NextResponse("Database Error",{status: 500});
     }
     

@@ -6,7 +6,7 @@ import connect from "@/utils/db";
 import Post from "@/models/Post";
 
 
-const BlogPost = async ({ params }) => {
+const SinglePostPage = async ({ params }) => {
   const { id } = params;
 
   try {
@@ -22,16 +22,16 @@ const BlogPost = async ({ params }) => {
         <div className={styles.top}>
           <div className={styles.info}>
             <h1 className={styles.title}>{post.title}</h1>
-            <p className={styles.desc}>{post.desc}</p>
+            {/* <p className={styles.desc}>{post.desc}</p> */}
             <div className={styles.author}>
-              <Image
+              {/* <Image
                 src={post.img}
                 alt={post.title}
                 width={40}
                 height={40}
                 className={styles.avatar}
-              />
-              <span className={styles.username}>Author: {post.username}</span>
+              /> */}
+              <span className={styles.username}>Author: {post.name}</span>
             </div>
           </div>
           <div className={styles.imageContainer}>
@@ -55,9 +55,9 @@ const BlogPost = async ({ params }) => {
       </div>
     );
   } catch (error) {
-    console.error("Error fetching post:", error);
+    console.error("Error fetching post:", error)
     return notFound();
   }
 };
 
-export default BlogPost;
+export default SinglePostPage

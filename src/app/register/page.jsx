@@ -14,14 +14,13 @@ export default function Register() {
   const router = useRouter();
   const session = useSession();
 
+
+
+
   const onChangeHandle = (e) => {
     const { name, value } = e.target;
     setFormData((prevState) => ({ ...prevState, [name]: value }));
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
+    
     const novosErros = {};
 
    
@@ -36,12 +35,28 @@ export default function Register() {
     }
 
     
-    if (!formData.senha) {
+    if (!formData.senha ){
       novosErros.senha = 'Por favor, insira uma senha.';
     }
 
+    const password = formData.senha
+    const isValid = password.length >= 8 &&
+                    /[A-Z]/.test(password) &&
+                    /[a-z]/.test(password) &&
+                    /[0-9]/.test(password) &&
+                    /[!@#$%^&*(),.?":{}|<>%]/.test(password);
+
+    if (!isValid) {
+      novosErros.senha ='A senha deve ter pelo menos 8 caracteres, incluir letras maiúsculas e minúsculas, um número e um caractere especial.';
+    } 
     
     setErro(novosErros);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+  
 
     
     if (Object.keys(novosErros).length > 0) {

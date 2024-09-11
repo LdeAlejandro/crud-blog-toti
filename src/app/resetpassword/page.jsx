@@ -7,8 +7,14 @@ import { ChangePasswordViaToken } from "@/utils/ChangePasswordViaToken/ChangePas
 const ResetPassword = () => {
   //Alejandro
 
-  const { searchParams } = new URL(window.location.href);
-  const token = searchParams.get('token'); 
+  const [token, setToken] = useState(null);
+
+  useEffect(() => {
+    
+    const { searchParams } = new URL(window.location.href);
+    const tokenFromURL = searchParams.get('token');
+    setToken(tokenFromURL);
+  }, []);
 
   const [formData, setFormData] = useState({
     newPasswordField1: "",
@@ -40,7 +46,16 @@ const ResetPassword = () => {
   const handleReset = async (e) => {
     e.preventDefault();
 
-    if (
+    const password = formData.newPasswordField2
+    const isValid = password.length >= 8 &&
+                    /[A-Z]/.test(password) &&
+                    /[a-z]/.test(password) &&
+                    /[0-9]/.test(password) &&
+                    /[!@#$%^&*(),.?":{}|<>%]/.test(password);
+
+    
+
+    if (isValid &&
       formData.newPasswordField1 === formData.newPasswordField2 &&
       formData.currentPassword !== formData.newPasswordField1
     ) {
@@ -62,9 +77,9 @@ const ResetPassword = () => {
      
     } else if (formData.newPasswordField1 !== formData.newPasswordField2) {
       setPasswordMsg("As senhas não são iguais.");
-    } else {
-      setPasswordMsg("A senha nova não pode ser sua senha antiga. ");
-    }
+    } else if (!isValid) {
+      setPasswordMsg('A senha deve ter pelo menos 8 caracteres, incluir letras maiúsculas e minúsculas, um número e um caractere especial.');
+    } 
   };
 
   // Empty dependency array to run only once

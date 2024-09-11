@@ -15,6 +15,7 @@ export const PATCH = async (request) => {
   const currentUser = await User.findOne({ email });
 
   if (currentUser) {
+    console.log('validating  current password')
     const isPasswordCorrect = await bcrypt.compare(
       currentPassword,
       currentUser.password
@@ -28,7 +29,61 @@ export const PATCH = async (request) => {
           { $set: { password: hashedPassword } }
         );
         console.log("New Password has been saved");
-        SendMail(email, 'Senha resetada Crud', 'Sua senha foi resetada com succeso');
+
+        const resetedPasswordMsg = `<!DOCTYPE html>
+              <html lang="pt-BR">
+              <head>
+                  <meta charset="UTF-8">
+                  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                  <title>Conta Criada</title>
+                  <style>
+                     
+                      body {
+                          font-family: Arial, sans-serif;
+                          margin: 0;
+                          padding: 0;
+                          background-color: #f4f4f4;
+                          color: #333;
+                          text-align: center;
+                      }
+                      
+                      .container {
+                          width: 90%;
+                          max-width: 600px;
+                          margin: 20px auto;
+                          background-color: #ffffff;
+                          padding: 20px;
+                          border-radius: 8px;
+                      }
+              
+                      h1 {
+                          color: #4CAF50;
+                          font-size: 24px;
+                          margin: 0;
+                      }
+              
+                      p {
+                          font-size: 16px;
+                          color: #666;
+                          margin: 20px 0;
+                      }
+
+                
+                  </style>
+              </head>
+              <body>
+                  <div class="container">
+                      <center>
+                          <h1>Reset de Senha completado</h1>
+                      </center>
+                      <center>
+                          <p>Sua senha foi trocada.</p>
+                      </center>
+                  </div>
+              </body>
+              </html>`
+        await SendMail(email, "Senha resetada Crud", "Sua senha foi resetada com succeso", resetedPasswordMsg);
+
 
         return new NextResponse("Password updated", {
           status: 201,

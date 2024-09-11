@@ -16,6 +16,7 @@ const isValidUrl = (url) => {
   return urlRegex.test(url)
 }
 
+
 const CreatePostPage = () => {
   const { data: session, status } = useSession();
   const router = useRouter();
@@ -37,18 +38,23 @@ const CreatePostPage = () => {
 
   useEffect(() => {
     if (status === "unauthenticated") {
-      router.push("/dashboard/login")
+        router.push("/account/login");
     }
-  }, [status, router]);
+}, [status, router]);
+
 
   if (status === "loading") {
     return <p>Carregando...</p>;
   }
+  
+
+ 
+   console.log(session)
+
 
   const handleEmojiClick = (emojiObject) => {
     setContent((prevContent) => prevContent + emojiObject.emoji);
   };
-
 
   console.log(content)
 

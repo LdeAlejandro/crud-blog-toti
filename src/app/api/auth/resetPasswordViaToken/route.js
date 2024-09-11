@@ -28,8 +28,60 @@ export const PATCH = async (request) => {
       user.verificationToken = undefined;
       user.verificationTokenExpiration = undefined;
       await user.save();
-      SendMail(user.email, 'Senha resetada', 'Sua senha foi resetada')
-      return new NextResponse("Senha resetada", { status: 401 });
+      const resetedPasswordMsg = `<!DOCTYPE html>
+      <html lang="pt-BR">
+      <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Conta Criada</title>
+          <style>
+             
+              body {
+                  font-family: Arial, sans-serif;
+                  margin: 0;
+                  padding: 0;
+                  background-color: #f4f4f4;
+                  color: #333;
+                  text-align: center;
+              }
+              
+              .container {
+                  width: 90%;
+                  max-width: 600px;
+                  margin: 20px auto;
+                  background-color: #ffffff;
+                  padding: 20px;
+                  border-radius: 8px;
+              }
+      
+              h1 {
+                  color: #4CAF50;
+                  font-size: 24px;
+                  margin: 0;
+              }
+      
+              p {
+                  font-size: 16px;
+                  color: #666;
+                  margin: 20px 0;
+              }
+
+        
+          </style>
+      </head>
+      <body>
+          <div class="container">
+              <center>
+                  <h1>Reset de Senha completado</h1>
+              </center>
+              <center>
+                  <p>Sua senha foi trocada.</p>
+              </center>
+          </div>
+      </body>
+      </html>`
+await SendMail(user.email, "Senha resetada Crud", "Sua senha foi resetada com succeso", resetedPasswordMsg);
+      return new NextResponse("Senha resetada", { status: 200  });
 
     } else if (user.verifiedAccount !== true) {
       return new NextResponse("Account not verified", { status: 409 });
@@ -67,7 +119,65 @@ export const POST = async (request) => {
         user.verificationTokenExpiration = TokenExpiration,
    
       await user.save();
-      SendMail(user.email, 'Resetar senha', `${process.env.SITE_URL}/resetpassword?token=${token}`)
+
+      const resetUrl = `${process.env.SITE_URL}/resetpassword?token=${token}`;
+      const resetPasswordViaTokenMsg = `<!DOCTYPE html>
+              <html lang="pt-BR">
+              <head>
+                  <meta charset="UTF-8">
+                  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                  <title>Conta Criada</title>
+                  <style>
+                     
+                      body {
+                          font-family: Arial, sans-serif;
+                          margin: 0;
+                          padding: 0;
+                          background-color: #f4f4f4;
+                          color: #333;
+                          text-align: center;
+                      }
+                      
+                      .container {
+                          width: 90%;
+                          max-width: 600px;
+                          margin: 20px auto;
+                          background-color: #ffffff;
+                          padding: 20px;
+                          border-radius: 8px;
+                      }
+              
+                      h1 {
+                          color: #4CAF50;
+                          font-size: 24px;
+                          margin: 0;
+                      }
+              
+                      p {
+                          font-size: 16px;
+                          color: #666;
+                          margin: 20px 0;
+                      }
+
+                
+                  </style>
+              </head>
+              <body>
+                  <div class="container">
+                      <center>
+                          <h1>Reset de Senha Solicitada</h1>
+                      </center>
+                          <center> <p>Resete sua senha.</p> </center>
+                                       <center><a href="${resetUrl}">
+                Resetar minha senha.
+            </a> </center>
+
+                  </div>
+                 
+              </body>
+              </html>`;
+      
+      SendMail(user.email, 'Resetar senha', `Resete sua senha.: ${resetUrl}`, resetPasswordViaTokenMsg)
       return new NextResponse("Reset password token generated", { status: 401 });
 
     } else if (user.verifiedAccount !== true) {

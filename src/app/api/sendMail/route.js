@@ -14,11 +14,11 @@ const transporter = nodemailer.createTransport({
 });
 
 // Handle POST request
-export const POST = async (req, email) => {
+export const POST = async (req) => {
   console.log('Node Mailer request');
   try {
     // Parse the request body
-    const {email, subject, message } = await req.json();
+    const {email, subject, message, html } = await req.json();
 
     // Send email with defined transport object
     const info = await transporter.sendMail({
@@ -26,7 +26,7 @@ export const POST = async (req, email) => {
       to: email, // List of receivers
       subject: subject || "Default Subject", // Subject line
       text: message || "Default message", // Plain text body
-      html: `<b>${message || "Default message"}</b>`, // HTML body
+      html: html || "<b>uknown error</b>", // HTML body
     });
 
     console.log("Message sent: %s", info.messageId);

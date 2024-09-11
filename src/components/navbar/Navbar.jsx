@@ -16,7 +16,7 @@ const links = [
   {
     id: 2,
     title: "Criar Post",
-    url: "/createpost",
+    url: "/create-post",
   },
   {
     id: 3,

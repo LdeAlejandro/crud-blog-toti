@@ -9,7 +9,7 @@ const Blog = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [sortOrder, setSortOrder] = useState("newest");
-  const [likes, setLikes] = useState({});
+  // const [likes, setLikes] = useState({});
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -37,12 +37,12 @@ const Blog = () => {
     return readingTime;
   };
 
-  const handleLike = (postId) => {
-    setLikes((prevLikes) => ({
-      ...prevLikes,
-      [postId]: (prevLikes[postId] || 0) + 1,
-    }));
-  };
+  // const handleLike = (postId) => {
+  //   setLikes((prevLikes) => ({
+  //     ...prevLikes,
+  //     [postId]: (prevLikes[postId] || 0) + 1,
+  //   }));
+  // };
 
   const sortedPosts = [...posts].sort((a, b) => {
     if (sortOrder === "newest") {
@@ -60,6 +60,7 @@ const Blog = () => {
     return <p>{error}</p>;
   }
 
+  console.log(posts[5].img)
   return (
     <div>
       {/* Barra de filtros */}
@@ -101,6 +102,7 @@ const Blog = () => {
                 <div className={styles.imageContainer}>
                   <Image
                     src={post.img || "/default-image.jpg"}
+                    // src={"https://images.unsplash.com/photo-1725900737080-54b5a571b38c?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"}
                     alt={post.title}
                     width={400}
                     height={250}
@@ -114,10 +116,10 @@ const Blog = () => {
                       ? `${post.desc.substring(0, 100)}...`
                       : post.desc}
                   </p> */}
-                  {/* <p className={styles.readingTime}>
-                    {calculateReadingTime(post.desc)} min de leitura
-                  </p> */}
-                  <button>Editar</button>
+                  <p className={styles.readingTime}>
+                    {calculateReadingTime(post.content)} min de leitura
+                  </p>
+                  {/* <button>Editar</button> */}
 
                   {/* Botão para curtir
                   <div className={styles.likeContainer}>
@@ -141,7 +143,7 @@ const Blog = () => {
       {/* Botão flutuante para criar novo post */}
       <button
         className={styles.createPostButton}
-        onClick={() => (window.location.href = "/createpost")}
+        onClick={() => (window.location.href = "/create-post")}
       >
         ➕ Criar Post
       </button>

@@ -109,14 +109,14 @@ const Blog = () => {
                 </div>
                 <div className={styles.content}>
                   <h1 className={styles.title}>{post.title}</h1>
-                  <p className={styles.desc}>
+                  {/* <p className={styles.desc}>
                     {post.desc.length > 100
                       ? `${post.desc.substring(0, 100)}...`
                       : post.desc}
-                  </p>
-                  <p className={styles.readingTime}>
+                  </p> */}
+                  {/* <p className={styles.readingTime}>
                     {calculateReadingTime(post.desc)} min de leitura
-                  </p>
+                  </p> */}
                   <button>Editar</button>
 
                   {/* Botão para curtir

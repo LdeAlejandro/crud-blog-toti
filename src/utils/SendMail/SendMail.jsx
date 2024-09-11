@@ -1,8 +1,8 @@
 
-    export const SendMail = async (email, subject, message) => {
+    export const SendMail = async (email, subject, message, html) => {
         try {
 
-          const baseUrl = 'http://localhost:3000'
+          const baseUrl = process.env.SITE_URL
           const response = await fetch(`${baseUrl}/api/sendMail`, {
             method: 'POST',
             headers: {
@@ -12,6 +12,7 @@
               email,
               subject,
               message,
+              html
             }),
           });
   

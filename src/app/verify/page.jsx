@@ -1,29 +1,48 @@
 "use client";
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { VerifyEmail } from '@/utils/VerifyEmail/VerifyEmail';
 
 const Verify = () => {
   const [token, setToken] = useState('');
+  const [verificationStatus, setVerificationStatus] = useState('');
+  const hasFetched = useRef(false); // Use useRef to track if the effect has run
 
   useEffect(() => {
-    const fetchToken = async () => {
-      const url = new URL(window.location.href);
-      const token = url.searchParams.get('token');
-      setToken(token);
+    // Check if the effect has already been executed
+    if (hasFetched.current) return;
 
-      console.log('Token from URL:', token);
+    const fetchToken = async () => {
+      try {
+        // Retrieve the token from the URL
+        const url = new URL(window.location.href);
+        const token = url.searchParams.get('token');
+        setToken(token);
+        console.log('Token from URL:', token);
+
       
-      if (token) {
-        const result = await VerifyEmail(token);
-        console.log(result)
+        if (token) {
+          const result = await VerifyEmail(token);
+          if (result.status === 200) {
+            setVerificationStatus("Conta verificada");
+           
+          } else {
+            setVerificationStatus("A verificação falhou");
+           
+          }
+        }
+      } catch (error) {
+        console.error('Error during token verification:', error);
       }
     };
 
     fetchToken();
+
+ 
+    hasFetched.current = true;
   }, []); 
 
   return (
-    <div>Verify</div>
+    <div>{verificationStatus}</div>
   );
 };
 

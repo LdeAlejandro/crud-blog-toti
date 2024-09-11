@@ -1,22 +1,20 @@
 import User from "@/models/User";
 import connect from "@/utils/db";
-import bcrypt from "bcryptjs";
 import { NextResponse } from "next/server";
 import { SendMail } from "../../../../utils/SendMail/SendMail";
 import { TokenGenerator } from "@/utils/TokenGenerator/TokenGenerator";
 
 //Alejandro
 export const POST = async (request) => {
-  const { name, email, /*username,*/ password } = await request.json();
+  const {email } = await request.json();
 
   await connect();
 
-  const hashedPassword = await bcrypt.hash(password, 5);
-
   //const user = await User.findOne ({$or: [{username},{ email}]});
   const user = await User.findOne({ email: email});
-
-  if(!user){
+console.log(user.verifiedAccount)
+  if(user && user.verifiedAccount !== true){
+    console.log('start verificattion')
     const TokenExpiration = Date.now() + 3600000;
 
     let token = (TokenGenerator()).toString();
@@ -27,70 +25,14 @@ export const POST = async (request) => {
       tokenAlreadyExist = await User.findOne({verificationToken: token});
     }
 
-  const newUser = new User({
-    name,
-    //username,
-    email,
-    password: hashedPassword,
-    verificationToken: token.toString(),
-    verificationTokenExpiration: TokenExpiration,
-  });
-
- 
+    user.verificationToken= token.toString();
+    user.verificationTokenExpiration= TokenExpiration;
 
   try {
-    await newUser.save();
-    console.log('User has been created')
+    await user.save();
+    console.log('Verification Email token generated')
     const verificationLink = `${process.env.SITE_URL}/verify?token=${token}`;
-              
-              const accountCreatedMessage = `
-                                            <!DOCTYPE html>
-<html lang="pt-BR">
-   <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Conta Criada</title>
-      <style>
-         /* Estilos básicos */
-         body {
-         font-family: Arial, sans-serif;
-         margin: 0;
-         padding: 0;
-         background-color: #f4f4f4;
-         color: #333;
-         text-align: center;
-         }
-         .container {
-         width: 90%;
-         max-width: 600px;
-         margin: 20px auto;
-         background-color: #ffffff;
-         padding: 20px;
-         border-radius: 8px;
-         }
-         h1 {
-         color: #4CAF50;
-         font-size: 24px;
-         margin: 0;
-         }
-         p {
-         font-size: 16px;
-         color: #666;
-         margin: 20px 0;
-         }
-      </style>
-   </head>
-   <body>
-      <div class="container">
-          <center>
-            <h1>Conta Criada</h1>
-         </center>
-          <center>
-            <p>Obrigado por criar uma conta conosco. Estamos empolgados em tê-lo a bordo.</p>
-          <center>
-      </div>
-   </body>
-</html>`;
+    console.log(verificationLink)
 
               const verifyAccountMessage = `<!DOCTYPE html>
               <html lang="pt-BR">
@@ -141,21 +83,13 @@ export const POST = async (request) => {
                       </center>
                       <center>
                           <p>Verifique sua conta criada.</p>
-                                      <center> <a href="${verificationLink}"> </center>
+                                      <center> <a href="${verificationLink}"> 
                 Verificar
-            </a>
+            </a></center>
             </center>
                   </div>
               </body>
               </html>`;
-              
-
-              await SendMail(
-                email,
-                "Account Created",
-                "Conta Criada",
-                accountCreatedMessage
-              );
 
               await SendMail(
                 email,
@@ -164,19 +98,19 @@ export const POST = async (request) => {
                 verifyAccountMessage
               );
 
-    return new NextResponse("User has been created", {
-      status: 201,
+    return new NextResponse("Verification Email sent", {
+      status: 200,
     });
   } catch (err) {
-    console.log('User not created')
-    return new NextResponse("User not created", err.message, {
+    console.log('Verification email error')
+    return new NextResponse("Verification email error", err.message, {
       status: 500,
     });
   }
 }
 else{
- console.log(' User or email already exist')
-  return new NextResponse("User or email already exist", {
+ console.log('User already verified or user does not exit')
+  return new NextResponse("User already verified or user does not exit", {
     status: 409,
   });
   

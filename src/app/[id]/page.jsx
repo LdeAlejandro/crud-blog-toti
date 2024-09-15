@@ -4,6 +4,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import connect from "@/utils/db";
 import Post from "@/models/Post";
+import ManagePostButtons from "@/components/ManagePostButtons/ManagePostButtons";
 
 
 const SinglePostPage = async ({ params }) => {
@@ -49,7 +50,7 @@ const SinglePostPage = async ({ params }) => {
             className={styles.text}
             dangerouslySetInnerHTML={{ __html: post.content }}
           />
-            <button>Editar</button> <button>Deletar</button>
+          <ManagePostButtons username={post.name} postId={id}/>
         </div>
       
       </div>

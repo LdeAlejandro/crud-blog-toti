@@ -60,7 +60,6 @@ const Blog = () => {
     return <p>{error}</p>;
   }
 
-  console.log(posts[5].img)
   return (
     <div>
       {/* Barra de filtros */}

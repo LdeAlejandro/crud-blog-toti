@@ -46,22 +46,16 @@ const CreatePostPage = () => {
   if (status === "loading") {
     return <p>Carregando...</p>;
   }
-  
-
- 
-   console.log(session)
 
 
   const handleEmojiClick = (emojiObject) => {
     setContent((prevContent) => prevContent + emojiObject.emoji);
   };
 
-  console.log(content)
-
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     const title = e.target[0].value;
-    // const desc = e.target[1].value;
     let img = e.target[1].value;
     
     const novosErros = {};
@@ -94,13 +88,12 @@ const CreatePostPage = () => {
         }),
       });
 
-      console.log("ola")
-
       if (res.ok) {
         setMensagem("Post criado com sucesso.");
         mutate();
         e.target.reset();
         setContent("");
+        router.push("/")
       } else {
         setMensagem("Erro ao criar o post.");
       }
@@ -113,16 +106,16 @@ const CreatePostPage = () => {
     }
   };
 
-  const handleDelete = async (id) => {
-    try {
-      await fetch(`/api/posts/${id}`, {
-        method: "DELETE",
-      });
-      mutate();
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  // const handleDelete = async (id) => {
+  //   try {
+  //     await fetch(`/api/posts/${id}`, {
+  //       method: "DELETE",
+  //     });
+  //     mutate();
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
 
   const toggleExpand = (postId) => {
     setExpandedPostId((prevId) => (prevId === postId ? null : postId));
@@ -143,7 +136,7 @@ const CreatePostPage = () => {
                         alt={post.title}
                         width={200}
                         height={100}
-                        objectFit="cover"
+                        // objectFit="cover"
                       />
                     ) : (
                       <Image
@@ -151,7 +144,7 @@ const CreatePostPage = () => {
                         alt="Imagem padrão"
                         width={200}
                         height={100}
-                        objectFit="cover"
+                        // objectFit="cover"
                       />
                     )}
                   </div>

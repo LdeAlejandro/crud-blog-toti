@@ -1,0 +1,22 @@
+/* Centralizar o conteúdo da página */
+.pageContainer {
+    display: flex;
+    justify-content: center; /* Centraliza horizontalmente */
+    align-items: center;     /* Centraliza verticalmente */
+    min-height: 20vh;       /* Garante que ocupe toda a altura da tela */
+    background-color: #f0f0f0; /* Adiciona um fundo leve (opcional) */
+  }
+  
+  /* Estilo para o formulário de reset de senha */
+  .imgContainer {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para dar destaque */
+    border-radius: 8px;  /* Bordas arredondadas */
+    margin-bottom: 20px; /* Adiciona espaço abaixo do campo de entrada */
+    max-width: 300px;
+    width: 300%;
+  }
+   

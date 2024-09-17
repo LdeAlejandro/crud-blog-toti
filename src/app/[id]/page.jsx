@@ -11,6 +11,7 @@ const SinglePostPage = async ({ params }) => {
 
   try {
     await connect();
+    console.log('here')
     const post = await Post.findById(id);
 
     if (!post) {

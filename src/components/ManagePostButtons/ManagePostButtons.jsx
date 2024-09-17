@@ -35,7 +35,7 @@ const ManagePostButtons = ({username, postId}) => {
   if (username === data?.user?.name || data?.user?.admin === true) {
     return (
       <div>
-        <button onClick={() => router.push(`/edit/${postId}`)}>Editar</button> 
+        <button onClick={() => router.push(`/${postId}/edit`)}>Editar</button> 
         <button onClick={postDelete}>Deletar</button>
       </div>
     )

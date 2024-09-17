@@ -26,13 +26,14 @@ const ResetPassword = () => {
   };
 
   return (
-    <div className="reset-password-container">
-    <div className={styles.pageContainer}>
+    
+    <div className={styles.container}>
       <div>
         <h2>Trocar Senha</h2>
 
-        <form className={styles.imgContainer} onSubmit={handleReset}>
+        <form className={styles.form} onSubmit={handleReset}>
           <input
+          className={styles.input}
             type="email"
             name="email"
             id="email"
@@ -42,13 +43,13 @@ const ResetPassword = () => {
         
 
 
-          <button type="submit">Enviar por e-mail</button>
+          <button className={styles.button} type="submit">Enviar por e-mail</button>
 
           {resetRequest && <p>{resetRequest}</p>}
         </form>
         </div>
       </div>
-    </div>
+
   );
 };
 

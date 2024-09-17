@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 
 import { ChangePasswordViaToken } from "@/utils/ChangePasswordViaToken/ChangePasswordViaToken";
+import styles from "./page.module.css";
 
 const ResetPassword = () => {
   //Alejandro
@@ -85,11 +86,11 @@ const ResetPassword = () => {
   // Empty dependency array to run only once
 
   return (
-    <div>
+    <div className={styles.container}>
     
-        <form className={styles.imgContainer} onSubmit={handleReset}>
-          <div>
+        <form className={styles.form} onSubmit={handleReset}>
             <input
+              className={styles.input}
               type={showPassword.newPassword ? "text" : "password"}
               name="newpassword"
               id="newPasswordField1"
@@ -98,6 +99,7 @@ const ResetPassword = () => {
               onChange={handleOnChange}
             />
             <input
+              className={styles.input}
               type={showPassword.newPassword ? "text" : "password"}
               name="newPassword"
               id="newPasswordField2"
@@ -106,14 +108,15 @@ const ResetPassword = () => {
               required
             />
             <button
+            className={styles.buttonShowPswd}
               type="button"
               onClick={() => togglePasswordVisibility("newPassword")}
             >
               {showPassword.newPassword ? "Ocultar" : "Mostrar"}
             </button>
-          </div>
-          <button>Trocar</button>
-          {passwordMsg && passwordMsg}
+          <button className={styles.button}>Trocar</button>
+          <p className={styles.error}>{passwordMsg && passwordMsg}</p>
+          
         </form>
     </div>
   );

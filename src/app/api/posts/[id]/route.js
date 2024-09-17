@@ -6,7 +6,6 @@ import Post from "@/models/Post";
 export const GET = async (request, {params}) => {
 
     const {id} = params;
-    console.log(id)
     //fetch
 
     try{
@@ -35,6 +34,32 @@ export const DELETE = async (request, {params}) => {
        return new NextResponse("Post has been deleted", {status: 200});
 
     }catch(err){
+        return new NextResponse("Database Error",{status: 500});
+    }
+    
+}
+
+export const PUT = async (request, {params}) => {
+
+    const {id} = params;
+    console.log("id ", id)
+
+    const body = await request.json()
+
+    //fetch
+
+    try{
+       await connect();
+
+       const post = await Post.findByIdAndUpdate(id, 
+        { title: body.newTitle, content: body.newContent , img: body.newImg}, 
+        { new: true } )
+        if (!post) {
+            return new NextResponse("Post was not found", {status: 404});
+        }
+
+    }catch(err){
+        console.log(err)
         return new NextResponse("Database Error",{status: 500});
     }
     

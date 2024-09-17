@@ -4,20 +4,21 @@ import Image from "next/image";
 import connect from "@/utils/db";
 import { notFound } from "next/navigation";
 import { useEffect, useState } from "react";
-import "react-quill/dist/quill.snow.css"
+// import "react-quill/dist/quill.snow.css"
 import dynamic from "next/dynamic"
 import Post from "@/models/Post";
+import EmojiPicker from "emoji-picker-react";
 
 // const ReactQuill = dynamic(() => import("react-quill"), { ssr: false })
 // Aleksandr
 
 
 
-const EditPostPage =  ({params}) => {
+const EditPostPage =  () => {
 
 
-  const { id } = params;
-  console.log(id)
+  // const { id } = params;
+  // console.log(id)
   // const [post, setPost] = useState(null)
   // const [erros, setErros] = useState({});
   // const [mensagem, setMensagem] = useState("");
@@ -101,45 +102,42 @@ const EditPostPage =  ({params}) => {
 
 // Equipe Frontend
   return (
-    <div>
-      page
-    </div>
-    // <div className={styles.container}>
-    //   <form className={styles.new} onSubmit={handleSubmit}>
-    //     <h1>Editar o post:</h1>
-    //     <input type="text" placeholder="Título" className={styles.input} />
-    //     {erros.title && <p className={styles.error}>{erros.title}</p>}
-    //     <input type="text" placeholder="URL da imagem" className={styles.input} />
-    //     {erros.img && <p className={styles.error}>{erros.img}</p>}
+    <div className={styles.container}>
+      <form className={styles.new} onSubmit={handleSubmit}>
+        <h1>Editar o post:</h1>
+        <input type="text" placeholder="Título" className={styles.input} />
+        {erros.title && <p className={styles.error}>{erros.title}</p>}
+        <input type="text" placeholder="URL da imagem" className={styles.input} />
+        {erros.img && <p className={styles.error}>{erros.img}</p>}
 
-    //     <ReactQuill
-    //       value={content}
-    //       onChange={setContent}
-    //       className={styles.textEditor}
-    //       placeholder="Escreva o conteúdo aqui..."
-    //     />
-    //     {erros.content && <p className={styles.error}>{erros.content}</p>}
+        <ReactQuill
+          value={content}
+          onChange={setContent}
+          className={styles.textEditor}
+          placeholder="Escreva o conteúdo aqui..."
+        />
+        {erros.content && <p className={styles.error}>{erros.content}</p>}
         
-    //     <button
-    //       type="button"
-    //       className={styles.emojiButton}
-    //       onClick={() => setShowEmojiPicker(!showEmojiPicker)}
-    //     >
-    //       😊 Adicionar Emoji
-    //     </button>
+        <button
+          type="button"
+          className={styles.emojiButton}
+          onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+        >
+          😊 Adicionar Emoji
+        </button>
 
-    //     {showEmojiPicker && <EmojiPicker onEmojiClick={handleEmojiClick} />}
+        {showEmojiPicker && <EmojiPickerker onEmojiClick={handleEmojiClick} />}
 
-    //     <button className={styles.button}>Enviar</button>
-    //   </form>       
-    //   {showModal && (
-    //     <div className={styles.modalOverlay}>
-    //       <div className={styles.modal}>
-    //         <p>{mensagem}</p>
-    //       </div>
-    //     </div>
-    //   )}
-    // </div>
+        <button className={styles.button}>Enviar</button>
+      </form>       
+      {showModal && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.modal}>
+            <p>{mensagem}</p>
+          </div>
+        </div>
+      )}
+    </div>
          
   );
 };

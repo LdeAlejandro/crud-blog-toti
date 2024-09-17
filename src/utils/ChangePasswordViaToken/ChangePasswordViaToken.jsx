@@ -41,7 +41,7 @@
         }),
       });
 
-      if (res.status === 201 ) {
+      if (res.status === 200 ) {
         return { message: 'Password updated successfully', status: res.status };
       } else {
         return { message: `Error updating password: ${message || res.status}`, status: res.status };

@@ -101,56 +101,9 @@ const handler = NextAuth({
                 email: newUser.email,
               });
 
+              console.log('Verification Email token generated')
               const verificationLink = `${process.env.SITE_URL}/verify?token=${token}`;
-
-              const accountCreatedMessage = `
-                                            <!DOCTYPE html>
-<html lang="pt-BR">
-   <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Conta Criada</title>
-      <style>
-         /* Estilos básicos */
-         body {
-         font-family: Arial, sans-serif;
-         margin: 0;
-         padding: 0;
-         background-color: #f4f4f4;
-         color: #333;
-         text-align: center;
-         }
-         .container {
-         width: 90%;
-         max-width: 600px;
-         margin: 20px auto;
-         background-color: #ffffff;
-         padding: 20px;
-         border-radius: 8px;
-         }
-         h1 {
-         color: #4CAF50;
-         font-size: 24px;
-         margin: 0;
-         }
-         p {
-         font-size: 16px;
-         color: #666;
-         margin: 20px 0;
-         }
-      </style>
-   </head>
-   <body>
-      <div class="container">
-          <center>
-            <h1>Conta Criada</h1>
-         </center>
-          <center>
-            <p>Obrigado por criar uma conta conosco. Estamos empolgados em tê-lo a bordo.</p>
-          <center>
-      </div>
-   </body>
-</html>`;
+              console.log(verificationLink)
 
               const verifyAccountMessage = `<!DOCTYPE html>
               <html lang="pt-BR">
@@ -201,18 +154,66 @@ const handler = NextAuth({
                       </center>
                       <center>
                           <p>Verifique sua conta criada.</p>
-                                      <center> <a href="${verificationLink}"> </center>
+                                      <center> <a href="${verificationLink}"> 
                 Verificar
-            </a>
+            </a></center>
             </center>
                   </div>
               </body>
               </html>`;
-              
+
+              const accountCreatedMessage = `
+                                            <!DOCTYPE html>
+<html lang="pt-BR">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Conta Criada</title>
+      <style>
+         /* Estilos básicos */
+         body {
+         font-family: Arial, sans-serif;
+         margin: 0;
+         padding: 0;
+         background-color: #f4f4f4;
+         color: #333;
+         text-align: center;
+         }
+         .container {
+         width: 90%;
+         max-width: 600px;
+         margin: 20px auto;
+         background-color: #ffffff;
+         padding: 20px;
+         border-radius: 8px;
+         }
+         h1 {
+         color: #4CAF50;
+         font-size: 24px;
+         margin: 0;
+         }
+         p {
+         font-size: 16px;
+         color: #666;
+         margin: 20px 0;
+         }
+      </style>
+   </head>
+   <body>
+      <div class="container">
+          <center>
+            <h1>Conta Criada</h1>
+         </center>
+          <center>
+            <p>Obrigado por criar uma conta conosco. Estamos empolgados em tê-lo a bordo.</p>
+          <center>
+      </div>
+   </body>
+</html>`; 
 
               await SendMail(
                 newRegisteredUser.email,
-                "Account Created",
+                "Conta Nova Criada",
                 "Conta Criada",
                 accountCreatedMessage
               );

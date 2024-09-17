@@ -141,12 +141,12 @@ const Blog = () => {
       )}
 
       {/* Botão flutuante para criar novo post */}
-      <button
+      {/* <button
         className={styles.createPostButton}
         onClick={() => (window.location.href = "/create-post")}
       >
         ➕ Criar Post
-      </button>
+      </button> */}
     </div>
   );
 };

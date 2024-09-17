@@ -14,7 +14,7 @@ export const POST = async (request) => {
   const hashedPassword = await bcrypt.hash(password, 5);
 
   //const user = await User.findOne ({$or: [{username},{ email}]});
-  const user = await User.findOne({ email: email});
+  const user = await User.findOne ({$or: [{name},{ email}]});
 
   if(!user){
     const TokenExpiration = Date.now() + 3600000;
@@ -141,9 +141,9 @@ export const POST = async (request) => {
                       </center>
                       <center>
                           <p>Verifique sua conta criada.</p>
-                                      <center> <a href="${verificationLink}"> </center>
+                                      <center> <a href="${verificationLink}"> 
                 Verificar
-            </a>
+            </a></center>
             </center>
                   </div>
               </body>
@@ -152,7 +152,7 @@ export const POST = async (request) => {
 
               await SendMail(
                 email,
-                "Account Created",
+                "Conta Nova Criada",
                 "Conta Criada",
                 accountCreatedMessage
               );

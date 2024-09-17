@@ -121,7 +121,7 @@ const UserProfile = () => {
         <p><strong>Name:</strong> {user.name}</p>
         <p><strong>Email:</strong> {user.email}</p>
         {session.user.verifiedAccount === true &&
-        <p><strong>Contat verificada</strong></p>
+        <p><strong>Conta verificada</strong></p>
       }
         {user.image && (
           <div className={styles.avatarContainer}>

@@ -5,6 +5,8 @@ import styles from './navbar.module.css';
 import { signOut, useSession } from 'next-auth/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faUserCircle, faSun, faMoon } from '@fortawesome/free-solid-svg-icons';
+import { usePathname  } from 'next/navigation';
+
 
 //Equipe FrontEnd
 const links = [
@@ -30,7 +32,10 @@ const links = [
   },
 ];
 
+
 const Navbar = () => {
+  
+  const pathname  = usePathname (); // Pega a URL atual da aplicação
   const { data: session, status } = useSession();
   const [menuOpen, setMenuOpen] = useState(false);
   const [theme, setTheme] = useState("light");
@@ -52,9 +57,13 @@ const Navbar = () => {
     localStorage.setItem("theme", newTheme);
     document.body.setAttribute("data-theme", newTheme);
   };
-
+//condições para navbar link
   const filteredLinks = status === 'authenticated'
-    ? links.filter(link => link.title !== 'Cadastra-se')
+    ? links.filter(link => { 
+      if(pathname.includes('myprofile')){
+      return link.title !== 'Profile' && link.title !== 'Cadastra-se';
+    } return link.title !== 'Cadastra-se'; 
+  })
     : links.filter(link => link.title !== 'Profile' && link.title !== 'Criar Post');
 
   return (
@@ -84,9 +93,11 @@ const Navbar = () => {
 
         {status === "authenticated" ? (
           <div className={styles.userSection}>
+            <Link href={"/account/myprofile"}>            
             <span className={styles.userName}>
               {session?.user?.name || "Usuario"}
             </span>
+            </Link>
             {session?.user?.image ? (
               <img
                 src={session.user.image}

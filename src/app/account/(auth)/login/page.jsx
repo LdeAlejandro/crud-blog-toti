@@ -15,7 +15,7 @@ const Login = () => {
 
   useEffect(() => {
     if (status === "authenticated") {
-      router.push("/createpost");
+      router.push("/");
     }
   }, [status, router]);
 

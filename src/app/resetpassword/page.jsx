@@ -87,7 +87,7 @@ const ResetPassword = () => {
   return (
     <div>
     
-        <form onSubmit={handleReset}>
+        <form className={styles.imgContainer} onSubmit={handleReset}>
           <div>
             <input
               type={showPassword.newPassword ? "text" : "password"}

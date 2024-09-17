@@ -25,16 +25,16 @@ const CreatePostPage = () => {
   const [mensagem, setMensagem] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
-  const [expandedPostId, setExpandedPostId] = useState(null);
+  // const [expandedPostId, setExpandedPostId] = useState(null);
 
 
 
 
-  const fetcher = (...args) => fetch(...args).then((res) => res.json());
-  const { data, mutate, isLoading } = useSWR(
-    `api/posts?username=${session?.user?.name}`,
-    fetcher
-  );
+  // const fetcher = (...args) => fetch(...args).then((res) => res.json());
+  // const { data, mutate, isLoading } = useSWR(
+  //   `api/posts?username=${session?.user?.name}`,
+  //   fetcher
+  // );
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -88,17 +88,17 @@ const CreatePostPage = () => {
         }),
       });
 
-      if (res.ok) {
+      if (res.status === 201) {
         setMensagem("Post criado com sucesso.");
-        mutate();
         e.target.reset();
         setContent("");
         router.push("/")
-      } else {
-        setMensagem("Erro ao criar o post.");
-      }
+      } else  if (res.status === 409) {
+        setMensagem("O Post com este título e conteúdo provavelmente já existe.");
+      } else setMensagem("Erro ao criar o post.");
       setShowModal(true);
       setTimeout(() => setShowModal(false), 3000);
+     
     } catch (err) {
       setMensagem("Erro ao criar o post.");
       setShowModal(true);
@@ -106,78 +106,9 @@ const CreatePostPage = () => {
     }
   };
 
-  // const handleDelete = async (id) => {
-  //   try {
-  //     await fetch(`/api/posts/${id}`, {
-  //       method: "DELETE",
-  //     });
-  //     mutate();
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
-
-  const toggleExpand = (postId) => {
-    setExpandedPostId((prevId) => (prevId === postId ? null : postId));
-  };
-
   if (status === "authenticated") {
     return (
       <div className={styles.container}>
-        <div className={styles.posts}>
-          {isLoading
-            ? "Carregando..."
-            : data?.map((post) => (
-                <div className={styles.post} key={post._id}>
-                  <div className={styles.imgContainer}>
-                    {post.img && (post.img.startsWith("http://") || post.img.startsWith("https://")) ? (
-                      <Image
-                        src={post.img}
-                        alt={post.title}
-                        width={200}
-                        height={100}
-                        // objectFit="cover"
-                      />
-                    ) : (
-                      <Image
-                        src="/default-image.jpg"
-                        alt="Imagem padrão"
-                        width={200}
-                        height={100}
-                        // objectFit="cover"
-                      />
-                    )}
-                  </div>
-                  <h2 className={styles.postTitle}>{post.title}</h2>
-                  <p className={styles.postDesc}>{post.desc}</p>
-                  <div className={styles.postContent}>
-                    {expandedPostId === post._id ? (
-                      <div
-                        dangerouslySetInnerHTML={{ __html: post.content }}
-                      />
-                    ) : (
-                      <div
-                        dangerouslySetInnerHTML={{
-                          __html: post.content.substring(0, 100) + "...",
-                        }}
-                      />
-                    )}
-                    <button
-                      className={styles.moreButton}
-                      onClick={() => toggleExpand(post._id)}
-                    >
-                      {expandedPostId === post._id ? "Mostrar menos" : "Mais..."}
-                    </button>
-                  </div>
-                  <span
-                    className={styles.delete}
-                    onClick={() => handleDelete(post._id)}
-                  >
-                    X
-                  </span>
-                </div>
-              ))}
-        </div>
 
         <form className={styles.new} onSubmit={handleSubmit}>
           <h1>Adicionar novo post</h1>

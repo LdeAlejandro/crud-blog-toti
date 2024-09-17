@@ -1,4 +1,3 @@
-import React from "react";
 import styles from "./page.module.css";
 import Image from "next/image";
 import { notFound } from "next/navigation";
@@ -41,7 +40,7 @@ const SinglePostPage = async ({ params }) => {
               alt={post.title}
               fill={true}
               className={styles.image}
-              objectFit="cover"
+              // objectFit="cover"
             />
           </div>
         </div>

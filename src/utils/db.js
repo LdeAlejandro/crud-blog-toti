@@ -2,6 +2,12 @@ import mongoose from "mongoose";
 
 //Mongo DB connection
 const connect = async () => {
+
+  console.log(`****************************\n If 0 not connected If 1 connected \n database connection state: ${mongoose.connections[0].readyState} \n*****************************`) 
+  if (mongoose.connections[0].readyState) {
+        // Already connected
+    return;
+  }
   
   try {
     await mongoose.connect(process.env.MONGO);

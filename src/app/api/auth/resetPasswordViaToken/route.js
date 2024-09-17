@@ -178,7 +178,7 @@ export const POST = async (request) => {
               </html>`;
       
       SendMail(user.email, 'Resetar senha', `Resete sua senha.: ${resetUrl}`, resetPasswordViaTokenMsg)
-      return new NextResponse("Reset password token generated", { status: 401 });
+      return new NextResponse("Reset password token generated", { status: 200 });
 
     } else if (user.verifiedAccount !== true) {
       return new NextResponse("Account not verified", { status: 409 });

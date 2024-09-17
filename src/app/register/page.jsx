@@ -20,7 +20,11 @@ export default function Register() {
   const onChangeHandle = (e) => {
     const { name, value } = e.target;
     setFormData((prevState) => ({ ...prevState, [name]: value }));
-    
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
     const novosErros = {};
 
    
@@ -34,12 +38,11 @@ export default function Register() {
       novosErros.email = 'Por favor, insira um endereço de email válido.';
     }
 
-    
-    if (!formData.senha ){
+    const password = formData.senha
+    if (!password ){
       novosErros.senha = 'Por favor, insira uma senha.';
     }
-
-    const password = formData.senha
+    
     const isValid = password.length >= 8 &&
                     /[A-Z]/.test(password) &&
                     /[a-z]/.test(password) &&
@@ -49,14 +52,9 @@ export default function Register() {
     if (!isValid) {
       novosErros.senha ='A senha deve ter pelo menos 8 caracteres, incluir letras maiúsculas e minúsculas, um número e um caractere especial.';
     } 
+
     
     setErro(novosErros);
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-  
 
     
     if (Object.keys(novosErros).length > 0) {
@@ -78,7 +76,7 @@ export default function Register() {
         signIn('credentials', { email: formData.email, password: formData.senha });
       }, 3000);
     } else if (result.message.includes('already exists')) {
-      setErro({ email: 'Este email já está registrado.' });
+      setErro({ email: 'Este email ou nome de usuario já está cadastrado.' });
       setTimeout(() => {
         setErro({});
       }, 3000); 

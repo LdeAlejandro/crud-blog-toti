@@ -15,6 +15,7 @@ const ResetPassword = () => {
     try {
       const res = await RequestPasswordReset(email);
       if (res.ok) {
+        console.log(res.ok)
         setResetRequest("Reset de senha solicitado com sucesso!");
       } else {
         setResetRequest("Falha ao solicitar reset de senha.");
@@ -40,9 +41,6 @@ const ResetPassword = () => {
             placeholder="Digite seu e-mail"
             required
           />
-        
-
-
           <button className={styles.button} type="submit">Enviar por e-mail</button>
 
           {resetRequest && <p>{resetRequest}</p>}

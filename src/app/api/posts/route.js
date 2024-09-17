@@ -30,7 +30,10 @@ export const POST = async (request) => {
        const sameTitlePost = await Post.find({title: body.title})
        const sameContentPost = await Post.find({content: body.content})
 
-       if (!sameTitlePost && !sameContentPost) {
+       console.log(sameTitlePost.length)
+       console.log(sameContentPost)
+
+       if (sameTitlePost.length === 0 && sameContentPost.length === 0) {
         const newPost = new Post(body)
         await newPost.save();
         return new NextResponse("Post has been created", {status: 201});

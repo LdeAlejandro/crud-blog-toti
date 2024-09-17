@@ -56,7 +56,7 @@ const CreatePostPage = () => {
     e.preventDefault();
 
     const title = e.target[0].value;
-    const img = e.target[1].value;
+    let img = e.target[1].value;
     
     const novosErros = {};
     if (!title) novosErros.title = "O título é obrigatório.";

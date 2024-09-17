@@ -1,9 +1,9 @@
-import React from "react";
 import styles from "./page.module.css";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import connect from "@/utils/db";
 import Post from "@/models/Post";
+import ManagePostButtons from "@/components/ManagePostButtons/ManagePostButtons";
 
 
 const SinglePostPage = async ({ params }) => {
@@ -11,6 +11,7 @@ const SinglePostPage = async ({ params }) => {
 
   try {
     await connect();
+    console.log('here')
     const post = await Post.findById(id);
 
     if (!post) {
@@ -40,7 +41,7 @@ const SinglePostPage = async ({ params }) => {
               alt={post.title}
               fill={true}
               className={styles.image}
-              objectFit="cover"
+              // objectFit="cover"
             />
           </div>
         </div>
@@ -49,7 +50,7 @@ const SinglePostPage = async ({ params }) => {
             className={styles.text}
             dangerouslySetInnerHTML={{ __html: post.content }}
           />
-            <button>Editar</button> <button>Deletar</button>
+          <ManagePostButtons username={post.name} postId={id}/>
         </div>
       
       </div>

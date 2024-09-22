@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import connect from "@/utils/db";
 import Post from "@/models/Post";
 import ManagePostButtons from "@/components/ManagePostButtons/ManagePostButtons";
+import Link from "next/link";
 
 
 const SinglePostPage = async ({ params }) => {
@@ -11,7 +12,6 @@ const SinglePostPage = async ({ params }) => {
 
   try {
     await connect();
-    console.log('here')
     const post = await Post.findById(id);
 
     if (!post) {
@@ -32,7 +32,9 @@ const SinglePostPage = async ({ params }) => {
                 height={40}
                 className={styles.avatar}
               /> */}
-              <span className={styles.username}>Author: {post.name}</span>
+              <Link href={`/posts/${post.name}`}>
+                <span className={styles.username}>Author: {post.name}</span>
+              </Link>
             </div>
           </div>
           <div className={styles.imageContainer}>

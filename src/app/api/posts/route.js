@@ -8,16 +8,43 @@ import Post from "@/models/Post";
 export const GET = async (request) => {
 
     try{
-       await connect();
-
-       const posts = await Post.find();
-       return new NextResponse(JSON.stringify(posts), {status: 200});
-
+       await connect()
+        
+       const url = new URL(request.url)
+       const user = url.searchParams.get("user")
+        
+       // if we need to get all the posts with username === user
+       if (!user) {
+        const posts = await Post.find();
+        return new NextResponse(JSON.stringify(posts), {status: 200});
+       } else {
+        // if we need to get all the posts for home page without any paraneters
+        const posts = await Post.find({ name: user });
+        return new NextResponse(JSON.stringify(posts), {status: 200});
+       }
     }catch(err){
         return new NextResponse("Database Error",{status: 500});
     }
-    
 }
+
+// export const GET = async (request) => {
+//     //fetch
+
+//     const url = new URL(request.url);
+        
+//     const username = url.searchParams.get("username");
+
+//     try{
+//        await connect();
+
+//        const posts = await Post.find(username && {username});
+//        return new NextResponse(JSON.stringify(posts), {status: 200});
+
+//     }catch(err){
+//         return new NextResponse("Database Error",{status: 500});
+//     }
+    
+// }
 
 //create New post
 export const POST = async (request) => {

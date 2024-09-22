@@ -5,17 +5,20 @@ import "react-quill/dist/quill.snow.css"
 import dynamic from "next/dynamic"
 import { useParams } from "next/navigation";
 import EmojiPicker from "emoji-picker-react"
+import { useRouter } from "next/navigation";
 
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false })
 
 const EditPostPage = () => {
 
+  const router = useRouter()
+
   const [post, setPost] = useState(null);
-    const [erros, setErros] = useState({});
-    const [mensagem, setMensagem] = useState("");
-    const [content, setContent] = useState("");
-    const [showEmojiPicker, setShowEmojiPicker] = useState(false);
-    const [showModal, setShowModal] = useState(false);
+  // const [erros, setErros] = useState({});
+  // const [mensagem, setMensagem] = useState("");
+  const [content, setContent] = useState("");
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  // const [showModal, setShowModal] = useState(false);
 
     const {id} = useParams()
 
@@ -41,12 +44,11 @@ const EditPostPage = () => {
   }, [])
 
 
-   const handleSubmit = async () => {
+   const handleSubmit = async (e) => {
     e.preventDefault();
     const newTitle = e.target[0].value;
     const newImg = e.target[1].value;
-
-    console.log(id)
+    const newContent = content
 
     try {
       const res = await fetch(`/api/posts/${id}`, {
@@ -57,7 +59,7 @@ const EditPostPage = () => {
         body: JSON.stringify({
           newTitle,
           newImg,
-          content
+          newContent
         })
     })
   
@@ -81,6 +83,10 @@ const EditPostPage = () => {
     }));
   };
 
+  const handleContentChange = (event) => {
+    setContent(event)
+  }
+
   const handleEmojiClick = (emojiObject) => {
     setContent((prevContent) => prevContent + emojiObject.emoji);
   };
@@ -94,27 +100,27 @@ const EditPostPage = () => {
           name="title" 
           placeholder="Título" 
           className={styles.input}
-          value={post?.title}
+          value={post?.title || ""}
           onChange={handleChange} 
         />
-        {erros.title && <p className={styles.error}>{erros.title}</p>}
+        {/* {erros.title && <p className={styles.error}>{erros.title}</p>} */}
         <input 
           type="text"
           name="img" 
           placeholder="URL da imagem" 
           className={styles.input}
-          value={post?.img}
+          value={post?.img || ""}
           onChange={handleChange}  
         />
-        {erros.img && <p className={styles.error}>{erros.img}</p>}
+        {/* {erros.img && <p className={styles.error}>{erros.img}</p>} */}
 
         <ReactQuill
           value={content}
-          onChange={setContent}
+          onChange = {handleContentChange}
           className={styles.textEditor}
           placeholder="Escreva o conteúdo aqui..."
         />
-        {erros.content && <p className={styles.error}>{erros.content}</p>}
+        {/* {erros.content && <p className={styles.error}>{erros.content}</p>} */}
         
         <button
           type="button"
@@ -126,15 +132,15 @@ const EditPostPage = () => {
 
         {showEmojiPicker && <EmojiPicker onEmojiClick={handleEmojiClick} />}
 
-        <button className={styles.button}>Enviar</button>
+        <button className={styles.button} type="submit">Enviar</button>
       </form>       
-      {showModal && (
+      {/* {showModal && (
         <div className={styles.modalOverlay}>
           <div className={styles.modal}>
             <p>{mensagem}</p>
           </div>
         </div>
-      )}
+      )} */}
     </div>
   )
 }

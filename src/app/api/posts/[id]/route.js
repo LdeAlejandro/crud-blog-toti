@@ -2,11 +2,10 @@ import { NextResponse } from "next/server";
 import connect from "@/utils/db";
 import Post from "@/models/Post";
 
-// Aleksandr
+// get the single Post 
 export const GET = async (request, {params}) => {
 
     const {id} = params;
-    //fetch
 
     try{
        await connect();
@@ -21,11 +20,10 @@ export const GET = async (request, {params}) => {
     
 }
 
-
+// delete the Post 
 export const DELETE = async (request, {params}) => {
 
     const {id} = params;
-    //fetch
 
     try{
        await connect();
@@ -39,24 +37,21 @@ export const DELETE = async (request, {params}) => {
     
 }
 
+// edit the Post
 export const PUT = async (request, {params}) => {
 
     const {id} = params;
-    console.log("id ", id)
-
     const body = await request.json()
-
-    //fetch
 
     try{
        await connect();
-
        const post = await Post.findByIdAndUpdate(id, 
         { title: body.newTitle, content: body.newContent , img: body.newImg}, 
         { new: true } )
         if (!post) {
             return new NextResponse("Post was not found", {status: 404});
         }
+        return new NextResponse("Post was updated successfully", {status: 200});
 
     }catch(err){
         console.log(err)

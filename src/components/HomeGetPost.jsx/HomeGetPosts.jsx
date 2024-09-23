@@ -1,43 +1,34 @@
-
-//import React, { useEffect, useState } from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import styles from "./page.module.css";
 import Link from "next/link";
 import Image from "next/image";
 
-const Blog  = async({ searchParams }) => {
+const Blog = () => {
+  const [posts, setPosts] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [sortOrder, setSortOrder] = useState("newest");
+  // const [likes, setLikes] = useState({});
 
-  let posts
-  let error = null;
-  const sortOrder = searchParams.sort || "newest"; 
+  useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const res = await fetch("http://localhost:3000/api/posts");
+        const res = await fetch("/api/posts");
         if (!res.ok) {
           throw new Error("Falha ao buscar posts");
         }
-         posts  = await res.json();
-
-
-
+        const data = await res.json();
+        setPosts(data);
+        setIsLoading(false);
       } catch (err) {
-        error = err.message;
-     
+        setError(err.message);
+        setIsLoading(false);
       }
     };
 
-    await fetchPosts();
-    
- 
-    if (!Array.isArray(posts) || posts.length === 0) {
-      return <p>No posts available.</p>;
-    }
-
-    const sortedPosts = posts.sort((a, b) => {
-    return sortOrder === "newest"
-      ? new Date(b.createdAt) - new Date(a.createdAt)
-      : new Date(a.createdAt) - new Date(b.createdAt);
-  })
-
+    fetchPosts();
+  }, []);
 
   const calculateReadingTime = (text) => {
     const wordsPerMinute = 200;
@@ -46,18 +37,44 @@ const Blog  = async({ searchParams }) => {
     return readingTime;
   };
 
+  // const handleLike = (postId) => {
+  //   setLikes((prevLikes) => ({
+  //     ...prevLikes,
+  //     [postId]: (prevLikes[postId] || 0) + 1,
+  //   }));
+  // };
+
+  const sortedPosts = [...posts].sort((a, b) => {
+    if (sortOrder === "newest") {
+      return new Date(b.createdAt) - new Date(a.createdAt);
+    } else {
+      return new Date(a.createdAt) - new Date(b.createdAt);
+    }
+  });
+
+  if (isLoading) {
+    return <p>Carregando posts...</p>;
+  }
+
+  if (error) {
+    return <p>{error}</p>;
+  }
+
   return (
     <div>
       {/* Barra de filtros */}
       <div className={styles.filterBar}>
-        <button className={sortOrder === "newest" ? styles.active : ""}>
-        <Link   href = "?sort=newest">
+        <button
+          onClick={() => setSortOrder("newest")}
+          className={sortOrder === "newest" ? styles.active : ""}
+        >
           Mais recentes
-        </Link></button>
-        <button className={sortOrder === "oldest" ? styles.active : ""}>
-        <Link href="?sort=oldest">
+        </button>
+        <button
+          onClick={() => setSortOrder("oldest")}
+          className={sortOrder === "oldest" ? styles.active : ""}
+        >
           Mais antigos
-        </Link>
         </button>
       </div>
 

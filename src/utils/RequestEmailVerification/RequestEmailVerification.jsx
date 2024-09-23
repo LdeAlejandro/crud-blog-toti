@@ -13,7 +13,6 @@ export const RequestEmailVerification = async (email) => {
     
 
       if (res.ok) {
-
           return { success: true, status: res.status };
         }  else {
          

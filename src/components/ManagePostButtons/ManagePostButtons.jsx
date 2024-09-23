@@ -1,6 +1,7 @@
 'use client'
 import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
+import styles from './ManagePostButtonsModule.css'
 
 const ManagePostButtons = ({username, postId}) => {
 
@@ -34,9 +35,9 @@ const ManagePostButtons = ({username, postId}) => {
   //access to manage the post only for its author or Admin
   if (username === data?.user?.name || data?.user?.admin === true) {
     return (
-      <div>
-        <button onClick={() => router.push(`/${postId}/edit`)}>Editar</button> 
-        <button onClick={postDelete}>Deletar</button>
+      <div className="buttonContainer">
+        <button className="submitButton" onClick={() => router.push(`/${postId}/edit`)}>Editar</button> 
+        <button className="deleteButton" onClick={postDelete}>Deletar</button>
       </div>
     )
   }  

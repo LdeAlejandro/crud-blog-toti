@@ -115,7 +115,7 @@ const EditPostPage = () => {
           placeholder="Escreva o conteúdo aqui..."
         />
         {erros.content && <p className={styles.error}>{erros.content}</p>}
-        
+        <div className="formButtons">
         <button
           type="button"
           className={styles.emojiButton}
@@ -126,7 +126,8 @@ const EditPostPage = () => {
 
         {showEmojiPicker && <EmojiPicker onEmojiClick={handleEmojiClick} />}
 
-        <button className={styles.button}>Enviar</button>
+        <button className={styles.submitButton}>Enviar</button>
+        </div>
       </form>       
       {showModal && (
         <div className={styles.modalOverlay}>

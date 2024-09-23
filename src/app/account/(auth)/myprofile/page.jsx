@@ -123,15 +123,15 @@ const UserProfile = () => {
         {session.user.verifiedAccount === true &&
         <p><strong>Conta verificada</strong></p>
       }
-        {user.image && (
+        {/* {user.image && (
           <div className={styles.avatarContainer}>
             <img
               src={user.image}
               alt="Profile Image"
               className={styles.avatar}
-            />
+            />asdasdsadsadadas
           </div>
-        )}
+        )} */}
       </div>
       <button onClick={changePasswordMenu} className={styles.changePasswordBtn}>
         {changePasswordBtnTxt}
@@ -164,6 +164,7 @@ const UserProfile = () => {
               onChange={handleOnChange}
               className={styles.input}
             />
+            <div className={styles.inputGroup}>
             <input
               type={showPassword.newPassword ? "text" : "password"}
               id="newPasswordField2"
@@ -176,9 +177,9 @@ const UserProfile = () => {
               type="button"
               onClick={() => togglePasswordVisibility("newPassword")}
               className={styles.togglePassword}
-            >
-              {showPassword.newPassword ? "Ocultar" : "Mostrar"}
+            >{showPassword.newPassword ? "Ocultar" : "Mostrar"}
             </button>
+            </div>
           </div>
           <button className={styles.submitButton}>Trocar</button>
           {passwordMsg && <p className={styles.passwordMsg}>{passwordMsg}</p>}

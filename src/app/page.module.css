@@ -13,7 +13,7 @@
   }
   
   
-  .filterBar button {
+  .filterBar .filterButton {
     background-color: var(--post-bg-color);
     color: var(--text-color);
     border: 1px solid var(--text-color);
@@ -24,7 +24,7 @@
   }
   
   
-  .filterBar button:hover {
+  .filterBar .filterButton:hover {
     background-color: rgba(0, 0, 0, 0.1);
   }
   

@@ -3,7 +3,7 @@
 import styles from "./page.module.css";
 import Link from "next/link";
 import Image from "next/image";
-
+import Button from "@/components/Button/Button";
 const Blog  = async({ searchParams }) => {
 
   let posts
@@ -27,10 +27,15 @@ const Blog  = async({ searchParams }) => {
 
     await fetchPosts();
     
- 
+    if (error) {
+      return <p>Error: {error}</p>;
+    }
+    
     if (!Array.isArray(posts) || posts.length === 0) {
       return <p>No posts available.</p>;
     }
+
+   
 
     const sortedPosts = posts.sort((a, b) => {
     return sortOrder === "newest"
@@ -50,15 +55,16 @@ const Blog  = async({ searchParams }) => {
     <div>
       {/* Barra de filtros */}
       <div className={styles.filterBar}>
-        <button className={sortOrder === "newest" ? styles.active : ""}>
-        <Link   href = "?sort=newest">
+        <Button btnClass={`${styles.filterButton} ${sortOrder === "newest" ? styles.active : ""}`} text={"Mais recentes"} url={"?sort=newest"}/>
+        <Button btnClass={`${styles.filterButton} ${sortOrder === "oldest" ? styles.active : ""}`} text={"Mais antigo"} url={"?sort=oldest"}/>
+        {/* <Link   href = "?sort=newest">
           Mais recentes
-        </Link></button>
-        <button className={sortOrder === "oldest" ? styles.active : ""}>
+        </Link>*/} 
+        {/* <button className={sortOrder === "oldest" ? styles.active : ""}>
         <Link href="?sort=oldest">
           Mais antigos
         </Link>
-        </button>
+        </button> */}
       </div>
 
       {/* Verificar se não há posts */}

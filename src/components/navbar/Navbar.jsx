@@ -98,7 +98,7 @@ const Navbar = () => {
               {session?.user?.name || "Usuario"}
             </span>
             </Link>
-            {session?.user?.image ? (
+            {/* {session?.user?.image ? (
               <img
                 src={session.user.image}
                 alt="User Image"
@@ -109,7 +109,7 @@ const Navbar = () => {
                 icon={faUserCircle}
                 className={styles.defaultIcon}
               />
-            )}
+            )} */}
             <button className={styles.logout} onClick={signOut}>
               Logout
             </button>

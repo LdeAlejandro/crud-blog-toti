@@ -1,0 +1,8 @@
+{
+    "functions": {
+      "api/auth/*": {
+        "maxDuration": 30
+      }
+    }
+  }
+  

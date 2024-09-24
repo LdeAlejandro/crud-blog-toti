@@ -64,7 +64,7 @@ const Login = () => {
         <form className={styles.form} onSubmit={handleSubmit}>          
           <input 
             type="email" 
-            placeholder="Email" 
+            placeholder="E-mail" 
             className={styles.input} 
           />
           {erro.email && <p className={styles.error}>{erro.email}</p>}
@@ -77,7 +77,7 @@ const Login = () => {
           {erro.senha && <p className={styles.error}>{erro.senha}</p>}
 
           <button type="submit" className={styles.button}>
-            Login
+            Logar
           </button>
         </form>
 
@@ -86,7 +86,7 @@ const Login = () => {
         </div>       
         <button className={styles.googleButton} onClick={handleGoogleLogin}>
           <FcGoogle className={styles.googleIcon} />
-          Login com o Google
+          Logar com o Google
         </button>
         <div className={styles.linksContainer}>
           <Button url="/register" text="Cadastre-se" />

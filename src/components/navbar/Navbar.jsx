@@ -111,7 +111,7 @@ const Navbar = () => {
               />
             )} */}
             <button className={styles.logout} onClick={signOut}>
-              Logout
+              Deslogar
             </button>
           </div>
         ) : (

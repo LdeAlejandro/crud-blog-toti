@@ -102,7 +102,7 @@ export default function Register() {
 
   return (
     <div className={styles.container}>
-      <h2>Registrar</h2>
+      {/* <h2>Registrar</h2> */}
       <form className={styles.form} onSubmit={handleSubmit}>
         {/* Nome */}
         <input
@@ -118,7 +118,7 @@ export default function Register() {
         <input
           name="email"
           type="email"
-          placeholder="Email"
+          placeholder="E-mail"
           className={styles.input}
           onChange={onChangeHandle}
         />
@@ -134,7 +134,7 @@ export default function Register() {
         />
         {erro.senha && <p className={styles.error}>{erro.senha}</p>}
 
-        <button className={styles.button}>Registrar</button>
+        <button className={styles.button}>Cadastrar-se</button>
         {erro.geral && <p className={styles.error}>{erro.geral}</p>}
       </form>
       <Link href="/dashboard/login" className={styles.loginLink}>

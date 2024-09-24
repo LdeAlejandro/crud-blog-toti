@@ -68,7 +68,7 @@
 
 .orDivider span {
   padding: 0 10px;
-  background-color: var(--bg-color); 
+  /* background-color: var(--bg-color);  */
 }
 
 .googleButton {

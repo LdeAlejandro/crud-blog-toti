@@ -27,7 +27,7 @@ const links = [
   },
   {
     id: 4,
-    title: "Profile",
+    title: "Perfil",
     url: "/account/myprofile",
   },
 ];
@@ -117,7 +117,7 @@ const Navbar = () => {
         ) : (
           <div className={styles.loginSection}>
             <Link href="/account/login" className={styles.loginLink}>
-              Log in
+              Logar conta
             </Link>
           </div>
         )}

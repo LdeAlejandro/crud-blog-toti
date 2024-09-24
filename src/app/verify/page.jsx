@@ -1,11 +1,15 @@
 "use client";
 import React, { useState, useEffect, useRef } from 'react';
 import { VerifyEmail } from '@/utils/VerifyEmail/VerifyEmail';
+import styles from './page.module.css';
+import { useRouter } from 'next/navigation';
 
 const Verify = () => {
   const [token, setToken] = useState('');
   const [verificationStatus, setVerificationStatus] = useState('');
   const hasFetched = useRef(false); // Use useRef to track if the effect has run
+
+  const router = useRouter();
 
   useEffect(() => {
     // Check if the effect has already been executed
@@ -24,10 +28,13 @@ const Verify = () => {
           const result = await VerifyEmail(token);
           if (result.status === 200) {
             setVerificationStatus("Conta verificada");
-           
+    
+          }else if(result.status === 409){
+            setVerificationStatus("Conta ja verificada");
+
           } else {
-            setVerificationStatus("A verificação falhou");
-           
+            setVerificationStatus("Houve um problema com a verificação.");
+            router.push("/account/myprofile") 
           }
         }
       } catch (error) {
@@ -42,7 +49,7 @@ const Verify = () => {
   }, []); 
 
   return (
-    <div>{verificationStatus}</div>
+    <div className={styles.container}>{verificationStatus}</div>
   );
 };
 

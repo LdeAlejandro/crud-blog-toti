@@ -6,7 +6,7 @@ import Post from "@/models/Post";
 
 //get all the posts
 export const GET = async (request) => {
-
+console.log("*******************************************\nGET ALL POST")
     try{
        await connect()
         

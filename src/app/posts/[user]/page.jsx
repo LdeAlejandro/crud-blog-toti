@@ -14,13 +14,14 @@ const UserPostsPage = ({ params }) => {
   // const [username, setUsername] = useState("")
 
   const { user } = params
+
   // const {data} = useSession()
 
 
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const res = await fetch(`/api/posts?user=${user}`);
+        const res = await fetch(`/api/posts?user=${user}`, { next: { revalidate: 60 } } );
         if (!res.ok) {
           throw new Error("Falha ao buscar posts");
         }
@@ -34,7 +35,7 @@ const UserPostsPage = ({ params }) => {
     };
 
     fetchPosts();
-  }, [1]);
+  }, []);
 
   const calculateReadingTime = (text) => {
     const wordsPerMinute = 200;

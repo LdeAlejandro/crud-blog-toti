@@ -11,12 +11,13 @@ const Blog  = async({ searchParams }) => {
   const sortOrder = searchParams.sort || "newest"; 
     const fetchPosts = async () => {
       try {
-        const res = await fetch( "https://crud-blog-toti.vercel.app/api/posts" || "http://localhost:3000/api/posts" );
+        //fetch e atualizar cada 60 segundos a lista dos post
+        const res = await fetch( "https://crud-blog-toti.vercel.app/api/posts" , { next: { revalidate: 60 } });
         if (!res.ok) {
           throw new Error("Falha ao buscar posts");
         }
          posts  = await res.json();
-
+        //console.log(posts)
 
 
       } catch (err) {

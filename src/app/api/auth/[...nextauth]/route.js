@@ -43,6 +43,8 @@ const handler = NextAuth({
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
 
       async profile(profile) {
+        await connect();
+        
         // Ensure profile is defined and contains email
         if (!profile || !profile.email) {
           console.error("Profile is undefined or missing email:", profile);

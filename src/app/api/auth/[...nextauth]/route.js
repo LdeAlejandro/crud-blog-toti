@@ -12,6 +12,7 @@ const handler = NextAuth({
     CredentialsProvider({
       id: "credentials",
       name: "Credentials",
+
       async authorize(credentials) {
         await connect();
 
@@ -253,7 +254,7 @@ const handler = NextAuth({
     },
   },
   pages: {
-    error: "/login",
+    error: "/account/login",
   },
 });
 

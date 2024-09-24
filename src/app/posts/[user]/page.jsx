@@ -14,7 +14,6 @@ const UserPostsPage = ({ params }) => {
   // const [username, setUsername] = useState("")
 
   const { user } = params
-
   // const {data} = useSession()
 
 
@@ -35,7 +34,7 @@ const UserPostsPage = ({ params }) => {
     };
 
     fetchPosts();
-  }, []);
+  }, [1]);
 
   const calculateReadingTime = (text) => {
     const wordsPerMinute = 200;

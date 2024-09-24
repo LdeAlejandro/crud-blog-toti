@@ -185,6 +185,34 @@
   background-color: #ffaa00;
 }
 
+
+.buttonContainer {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  
+}
+
+.submitButton {
+  padding: 12px;
+  background-color: var(--button-bg-color);
+  color: var(--button-text-color);
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.submitButton:hover{
+  background-color: #ffcc00;
+}
+
+.formButtons{
+  display: flex;
+  justify-content: space-between;
+}
+
+
 @media (max-width: 768px) {
   .new {
     max-width: 100%;

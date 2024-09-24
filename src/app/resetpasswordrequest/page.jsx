@@ -14,7 +14,8 @@ const ResetPassword = () => {
 
     try {
       const res = await RequestPasswordReset(email);
-      if (res.ok) {
+      console.log(res)
+      if (res.status === 200) {
         console.log(res.ok)
         setResetRequest("Reset de senha solicitado com sucesso!");
       } else {

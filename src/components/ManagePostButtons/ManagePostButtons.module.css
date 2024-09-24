@@ -1,0 +1,29 @@
+
+  .buttonContainer {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    
+  }
+  
+  .submitButton,
+  .deleteButton {
+    padding: 12px;
+    background-color: var(--button-bg-color);
+    color: var(--button-text-color);
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .submitButton:hover,
+  .deleteButton:hover {
+    background-color: #ffcc00;
+  }
+
+.formButtons{
+    display: flex;
+    justify-content: space-between;
+  }
+  

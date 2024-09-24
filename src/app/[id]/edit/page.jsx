@@ -41,7 +41,7 @@ const EditPostPage = () => {
       }      
     }
     getPost(id)  
-  }, [])
+  }, []);
 
 
    const handleSubmit = async (e) => {
@@ -65,7 +65,8 @@ const EditPostPage = () => {
   
       if (res.ok) {
           alert("O post foi editado com sucesso")
-          router.push(`/${id}`)
+          router.push(`/${id}`);
+          window.location.href = `/${id}`;
         } else {
           alert("Erro ao editar o post.");
         }
@@ -120,8 +121,10 @@ const EditPostPage = () => {
           className={styles.textEditor}
           placeholder="Escreva o conteúdo aqui..."
         />
+
         {/* {erros.content && <p className={styles.error}>{erros.content}</p>} */}
-        
+        <div className={styles.formButtons}>
+
         <button
           type="button"
           className={styles.emojiButton}
@@ -132,7 +135,10 @@ const EditPostPage = () => {
 
         {showEmojiPicker && <EmojiPicker onEmojiClick={handleEmojiClick} />}
 
-        <button className={styles.button} type="submit">Enviar</button>
+        <button className={styles.submitButton}>Enviar</button>
+        </div>
+
+
       </form>       
       {/* {showModal && (
         <div className={styles.modalOverlay}>

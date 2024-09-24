@@ -185,6 +185,11 @@
   background-color: #ffaa00;
 }
 
+.formButtons{
+  display: flex;
+  justify-content: space-between;
+}
+
 @media (max-width: 768px) {
   .new {
     max-width: 100%;

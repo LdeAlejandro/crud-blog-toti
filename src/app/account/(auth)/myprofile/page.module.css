@@ -32,7 +32,7 @@
     border-radius: 50%;
   }
   
-  .changePasswordBtn, .logoutBtn, .submitButton {
+  .changePasswordBtn, .logoutBtn, .submitButton, .blogsBtn {
     background-color: var(--button-bg-color);
     color: var(--button-text-color);
     padding: 10px 20px;
@@ -43,7 +43,7 @@
     margin-top: 10px;
   }
   
-  .changePasswordBtn:hover, .logoutBtn:hover, .submitButton:hover {
+  .changePasswordBtn:hover, .logoutBtn:hover, .submitButton:hover, .blogsBtn:hover {
     background-color: #ffcc00;
   }
   

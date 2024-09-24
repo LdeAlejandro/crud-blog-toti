@@ -30,8 +30,8 @@ const UserProfile = () => {
   if (!session) {
     return (
       <div className={styles.notLoggedIn}>
-        <p>You are not logged in.</p>
-        <Button url="/account/login" text="Log in" />
+        <p>Você não está logado.</p>
+        <Button url="/account/login" text="Logar" />
       </div>
     );
   }
@@ -116,23 +116,24 @@ const UserProfile = () => {
 
   return (
     <div className={styles.profileContainer}>
-      <h1 className={styles.title}>My Profile</h1>
+      <h1 className={styles.title}>Meu Perfil</h1>
       <div className={styles.userInfo}>
-        <p><strong>Name:</strong> {user.name}</p>
-        <p><strong>Email:</strong> {user.email}</p>
+        <p><strong>Nome:</strong> {user.name}</p>
+        <p><strong>E-mail:</strong> {user.email}</p>
         {session.user.verifiedAccount === true &&
         <p><strong>Conta verificada</strong></p>
       }
-        {user.image && (
+        {/* {user.image && (
           <div className={styles.avatarContainer}>
             <img
               src={user.image}
               alt="Profile Image"
               className={styles.avatar}
-            />
+            />asdasdsadsadadas
           </div>
-        )}
+        )} */}
       </div>
+      <Button btnClass={styles.blogsBtn} url={`/posts/${session.user.name}`} text={"Meus blogs"}></Button> 
       <button onClick={changePasswordMenu} className={styles.changePasswordBtn}>
         {changePasswordBtnTxt}
       </button>
@@ -164,6 +165,7 @@ const UserProfile = () => {
               onChange={handleOnChange}
               className={styles.input}
             />
+            <div className={styles.inputGroup}>
             <input
               type={showPassword.newPassword ? "text" : "password"}
               id="newPasswordField2"
@@ -176,9 +178,9 @@ const UserProfile = () => {
               type="button"
               onClick={() => togglePasswordVisibility("newPassword")}
               className={styles.togglePassword}
-            >
-              {showPassword.newPassword ? "Ocultar" : "Mostrar"}
+            >{showPassword.newPassword ? "Ocultar" : "Mostrar"}
             </button>
+            </div>
           </div>
           <button className={styles.submitButton}>Trocar</button>
           {passwordMsg && <p className={styles.passwordMsg}>{passwordMsg}</p>}

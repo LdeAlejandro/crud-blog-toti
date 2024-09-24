@@ -27,7 +27,7 @@ const links = [
   },
   {
     id: 4,
-    title: "Profile",
+    title: "Perfil",
     url: "/account/myprofile",
   },
 ];
@@ -98,7 +98,7 @@ const Navbar = () => {
               {session?.user?.name || "Usuario"}
             </span>
             </Link>
-            {session?.user?.image ? (
+            {/* {session?.user?.image ? (
               <img
                 src={session.user.image}
                 alt="User Image"
@@ -109,7 +109,7 @@ const Navbar = () => {
                 icon={faUserCircle}
                 className={styles.defaultIcon}
               />
-            )}
+            )} */}
             <button className={styles.logout} onClick={signOut}>
               Logout
             </button>
@@ -117,7 +117,7 @@ const Navbar = () => {
         ) : (
           <div className={styles.loginSection}>
             <Link href="/account/login" className={styles.loginLink}>
-              Log in
+              Logar conta
             </Link>
           </div>
         )}

@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import Button from "@/components/Button/Button";
 import PaginationControls from "@/components/PaginationController/PaginationController";
+import SearchPost from "@/components/SearchPost/SearchPost";
 
 const Blog  = async({ searchParams }) => {
 
@@ -78,8 +79,9 @@ const Blog  = async({ searchParams }) => {
       <div className={styles.filterBar}>
         <Button btnClass={`${styles.filterButton} ${sortOrder === "newest" ? styles.active : ""}`} text={"Mais recentes"} url={`${urlContrusctor}&sort=newest`}/>
         <Button btnClass={`${styles.filterButton} ${sortOrder === "oldest" ? styles.active : ""}`} text={"Mais antigos"} url={` ${urlContrusctor}&sort=oldest`}/>
-       
+      
       </div>
+      <SearchPost/>
 
       {/* Verificar se não há posts */}
       {totalPosts === 0 ? (

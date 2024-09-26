@@ -1,41 +1,75 @@
-"use client";
-import React, { useEffect, useState } from "react";
+
+
 import styles from "./page.module.css";
 import Link from "next/link";
 import Image from "next/image";
-import { useSession } from "next-auth/react";
-
-const UserPostsPage = ({ params }) => {
-  const [posts, setPosts] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [sortOrder, setSortOrder] = useState("newest");
-  // const [likes, setLikes] = useState({});
-  // const [username, setUsername] = useState("")
-
-  const { user } = params
-  // const {data} = useSession()
+import Button from "@/components/Button/Button";
+import PaginationControls from "@/components/PaginationControllerUserPage/PaginationControllerUserPage";
+import SearchPost from "@/components/SearchPost/SearchPost";
 
 
-  useEffect(() => {
+const Blog  = async({ params, searchParams }) => {
+ 
+  const {user} = params;
+  let posts
+  let error = null;
+  let data;
+  let totalPosts;
+  const sortOrder = searchParams.sort || "newest"; 
+  const page = searchParams['page'] ?? '1';
+  const per_page = searchParams['per_page'] ?? '10';
+  const searchTerm = searchParams['search'] ?? '';
+
+
+  const paginationUrlApiRequest = `${process.env.SITE_URL}/api/posts?user=${user}&page=${page}&per_page=${per_page}&search=${searchTerm}`;
+  
+  const urlForSearchcompoenent = (`${process.env.SITE_URL}/posts/${user}?page=${page}&per_page=${per_page}`);
+  const urlForSorterComponent = (`${process.env.SITE_URL}/posts/${user}?page=${page}&per_page=${per_page}&search=${searchTerm}`);
+
     const fetchPosts = async () => {
       try {
-        const res = await fetch(`/api/posts?user=${user}`);
+
+        const res = await fetch( `${paginationUrlApiRequest}` , { next: { revalidate: 60 } });
+        
         if (!res.ok) {
           throw new Error("Falha ao buscar posts");
         }
-        const data = await res.json();
-        setPosts(data);
-        setIsLoading(false);
+         const response  = await res.json();
+         data = response
+         posts = response.posts;
+         
+         totalPosts= Number(response.totalPosts);
+
       } catch (err) {
-        setError(err.message);
-        setIsLoading(false);
+        error = err.message;
+     
       }
-    };
+    }; 
 
-    fetchPosts();
-  }, [1]);
+    await fetchPosts();
 
+    if (error) {
+      return <p>Error: {error}</p>;
+    }
+    
+    if (!Array.isArray(posts) || posts.length === 0) {
+      return <p>Nenhum resultado encontrado para a sua busca.</p>;
+    }
+
+   
+
+    const sortedPosts = posts.sort((a, b) => {
+    return sortOrder === "newest"
+      ? new Date(b.createdAt) - new Date(a.createdAt)
+      : new Date(a.createdAt) - new Date(b.createdAt);
+  })
+
+
+   const start = (Number(page) - 1) * Number(per_page) // 0, 5, 10 ...
+   const end = start + Number(per_page) // 5, 10, 15 ...
+
+  //  const entries = sortedPosts.slice(start, end)
+  
   const calculateReadingTime = (text) => {
     const wordsPerMinute = 200;
     const textLength = text.split(" ").length;
@@ -43,49 +77,22 @@ const UserPostsPage = ({ params }) => {
     return readingTime;
   };
 
-  // const handleLike = (postId) => {
-  //   setLikes((prevLikes) => ({
-  //     ...prevLikes,
-  //     [postId]: (prevLikes[postId] || 0) + 1,
-  //   }));
-  // };
-
-  const sortedPosts = [...posts].sort((a, b) => {
-    if (sortOrder === "newest") {
-      return new Date(b.createdAt) - new Date(a.createdAt);
-    } else {
-      return new Date(a.createdAt) - new Date(b.createdAt);
-    }
-  });
-
-  if (isLoading) {
-    return <p>Carregando posts...</p>;
-  }
-
-  if (error) {
-    return <p>{error}</p>;
-  }
-
   return (
     <div>
+       <div >
+        <span className={styles.author}>{posts.length > 0 ? `Blogs de ${posts[0].name}` : 'Nenhum autor disponível'}</span>
+        </div>
       {/* Barra de filtros */}
       <div className={styles.filterBar}>
-        <button
-          onClick={() => setSortOrder("newest")}
-          className={sortOrder === "newest" ? styles.active : ""}
-        >
-          Mais recentes
-        </button>
-        <button
-          onClick={() => setSortOrder("oldest")}
-          className={sortOrder === "oldest" ? styles.active : ""}
-        >
-          Mais antigos
-        </button>
+        
+        <Button btnClass={`${styles.filterButton} ${sortOrder === "newest" ? styles.active : ""}`} text={"Mais recentes"} url={`${urlForSorterComponent}&sort=newest`}/>
+        <Button btnClass={`${styles.filterButton} ${sortOrder === "oldest" ? styles.active : ""}`} text={"Mais antigos"} url={` ${urlForSorterComponent}&sort=oldest`}/>
       </div>
 
+      <SearchPost urlC={urlForSearchcompoenent}/>
+
       {/* Verificar se não há posts */}
-      {posts.length === 0 ? (
+      {totalPosts === 0 ? (
         <div className={styles.noPostsMessage}>
           <h2>Não há posts disponíveis!</h2>
           <p>
@@ -142,6 +149,7 @@ const UserPostsPage = ({ params }) => {
               </Link>
             ))}
           </div>
+          <PaginationControls username={user} hasNextPage={end < totalPosts} hasPrevPage={start > 0 } totalPages={totalPosts} perPagePost={per_page}/>
         </div>
       )}
 
@@ -156,4 +164,4 @@ const UserPostsPage = ({ params }) => {
   );
 };
 
-export default UserPostsPage
+export default Blog;

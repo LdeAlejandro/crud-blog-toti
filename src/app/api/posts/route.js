@@ -6,24 +6,97 @@ import Post from "@/models/Post";
 
 //get all the posts
 export const GET = async (request) => {
-console.log("*******************************************\nGET ALL POST")
+
+    
     try{
        await connect()
+      
+       const url = new URL(request.url);
+       const user = url.searchParams.get("user");
+       const page = url.searchParams.get("page")|| 1;
+       const searchTerm = url.searchParams.get("search");
+       const per_page = Math.min(parseInt(url.searchParams.get("per_page")) || 5, 10);
+       const limit =  parseInt(per_page); 
+       const skip = (page - 1 ) * per_page ||0;
+    
+       // if we need to get all the posts 
+       if (!user && searchTerm ==="" ||!user && !searchTerm) {
         
-       const url = new URL(request.url)
-       const user = url.searchParams.get("user")
+        const posts = await Post.find({})
+        .sort({createdAt: -1})
+        .skip(skip)
+        .limit(limit);
         
-       // if we need to get all the posts with username === user
-       if (!user) {
-        const posts = await Post.find();
-        return new NextResponse(JSON.stringify(posts), {status: 200});
-       } else {
-        // if we need to get all the posts for home page without any paraneters
-        const posts = await Post.find({ name: user });
-        return new NextResponse(JSON.stringify(posts), {status: 200});
+        const totalPosts = await Post.countDocuments();
+
+        return new NextResponse(JSON.stringify({posts, totalPosts}), {status: 200});
+       } else if (!user && searchTerm && searchTerm !=="") {
+        
+        const posts = await Post.find({
+            //$option: i para ignorar mayusculas e minusculas
+            $or: [
+            {title:{$regex: searchTerm, $options:"i"}},
+            {content:{$regex: searchTerm, $options:"i"}}
+            ]
+        })
+        .sort({createdAt: -1})
+        .skip(skip)
+        .limit(limit);
+
+        if(!posts.length){
+            return new NextResponse(JSON.stringify("No matching posts",{ totalPosts: 0}), {status: 200});
+        }
+        
+        const totalPosts = await Post.countDocuments({
+            //$option: i para ignorar mayusculas e minusculas
+            $or: [
+            {title:{$regex: searchTerm, $options:"i"}},
+            {content:{$regex: searchTerm, $options:"i"}}
+            ]
+        });
+
+        return new NextResponse(JSON.stringify({posts, totalPosts}), {status: 200});
+       }else if(user && searchTerm && searchTerm !=="") {
+        
+        const posts = await Post.find({ 
+            name:user,
+            //$option: i para ignorar mayusculas e minusculas
+            title:{$regex: searchTerm, $options:"i"},
+            content:{$regex: searchTerm, $options:"i"}
+        })
+        .sort({createdAt: -1})
+        .skip(skip)
+        .limit(limit);
+
+        if(!posts.length){
+            return new NextResponse(JSON.stringify("No matching posts",{ totalPosts: 0}), {status: 200});
+        }
+        
+        const totalPosts = await Post.countDocuments({
+            name:user,
+            //$option: i para ignorar mayusculas e minusculas
+            $or: [
+            {title:{$regex: searchTerm, $options:"i"}},
+            {content:{$regex: searchTerm, $options:"i"}}
+            ]
+        });
+
+        return new NextResponse(JSON.stringify({posts, totalPosts}), {status: 200});
+       
+       }else {
+        // if we need to get all the posts for user page without any parameters
+        const posts = await Post.find({ name: user })
+        .sort({createdAt: -1})
+        .skip(skip )
+        .limit(limit );
+
+        const totalPosts = await Post.countDocuments({name: user});
+
+        return new NextResponse(JSON.stringify({posts, totalPosts}), {status: 200});
        }
     }catch(err){
-        return new NextResponse("Database Error",{status: 500});
+        console.error("Database Error: ", err);
+        return new NextResponse("Database Error" ,{status: 500});
     }
 }
 

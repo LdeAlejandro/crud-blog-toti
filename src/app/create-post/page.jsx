@@ -92,7 +92,8 @@ const CreatePostPage = () => {
         setMensagem("Post criado com sucesso.");
         e.target.reset();
         setContent("");
-        router.push("/")
+       await router.push("/")
+       router.refresh();
       } else  if (res.status === 409) {
         setMensagem("O Post com este título e conteúdo provavelmente já existe.");
       } else setMensagem("Erro ao criar o post.");

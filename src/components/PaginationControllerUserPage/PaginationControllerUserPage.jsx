@@ -18,9 +18,9 @@ const PaginationControls = (
 
   const page = searchParams.get('page') ?? '1'
   const per_page = searchParams.get('per_page') ?? perPagePost
-  const searchTerm =searchParams.get('search') ?? "5";
+  const searchTerm =searchParams.get('search') ?? "";
   const sortOrder =searchParams.get('sort') ?? "newest";
-  console.log("pagination",  totalPages / Number(per_page))
+  
   return (
     <div className={styles.container}>
       <button

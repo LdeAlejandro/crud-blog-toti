@@ -33,9 +33,7 @@ const Blog  = async({ searchParams }) => {
          data = response
          posts = response.posts;
          totalPosts= Number(response.totalPosts);
-
-
-
+        
       } catch (err) {
         error = err.message;
      
@@ -59,6 +57,7 @@ const Blog  = async({ searchParams }) => {
       ? new Date(b.createdAt) - new Date(a.createdAt)
       : new Date(a.createdAt) - new Date(b.createdAt);
   })
+  console.log("*****\n",sortedPosts[0].title)
 
    // mocked, skipped and limited in the real app
    const start = (Number(page) - 1) * Number(per_page) // 0, 5, 10 ...

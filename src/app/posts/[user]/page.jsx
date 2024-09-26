@@ -11,7 +11,6 @@ import SearchPost from "@/components/SearchPost/SearchPost";
 const Blog  = async({ params, searchParams }) => {
  
   const {user} = params;
-  console.log("seachparams", searchParams)
   let posts
   let error = null;
   let data;
@@ -70,8 +69,6 @@ const Blog  = async({ params, searchParams }) => {
    const end = start + Number(per_page) // 5, 10, 15 ...
 
   //  const entries = sortedPosts.slice(start, end)
-  
-  console.log(totalPosts)
   
   const calculateReadingTime = (text) => {
     const wordsPerMinute = 200;

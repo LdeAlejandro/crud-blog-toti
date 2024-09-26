@@ -12,11 +12,11 @@ const SearchPost = ({urlC}) => {
 
   const sortOrder = searchParams.get('sort') || 'newest';
 
-  const searchPost= (e) => {
+  const searchPost= async(e) => {
     e.preventDefault();
     const searchValue = e.target[0].value;
-    router.push(`${urlC}&search=${searchValue}&sort=${sortOrder}`);
-   
+    await router.push(`${urlC}&search=${searchValue}&sort=${sortOrder}`);
+    router.refresh();
       
   }
 

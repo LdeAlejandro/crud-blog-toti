@@ -13,10 +13,8 @@ export const GET = async (request) => {
       
        const url = new URL(request.url);
        const user = url.searchParams.get("user");
-       console.log('backend user: ', user);
        const page = url.searchParams.get("page")|| 1;
        const searchTerm = url.searchParams.get("search");
-       console.log('searchTerm ' , searchTerm)
        const per_page = Math.min(parseInt(url.searchParams.get("per_page")) || 5, 10);
        const limit =  parseInt(per_page); 
        const skip = (page - 1 ) * per_page ||0;

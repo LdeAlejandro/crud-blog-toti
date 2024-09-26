@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 import { ChangePasswordViaToken } from "@/utils/ChangePasswordViaToken/ChangePasswordViaToken";
 import styles from "./page.module.css";
@@ -8,6 +9,7 @@ import styles from "./page.module.css";
 const ResetPassword = () => {
   //Alejandro
 
+  const router = useRouter();
   const [token, setToken] = useState(null);
 
   useEffect(() => {
@@ -70,6 +72,10 @@ const ResetPassword = () => {
           setPasswordMsg("Senha incorreta");
          } else {
           setPasswordMsg("Senha atualizada com sucesso");
+          setTimeout(() => {
+            router.push("account/login");
+        }, 3000); 
+         
         }
       } catch (error) {
         setPasswordMsg("Erro ao mudar a senha");

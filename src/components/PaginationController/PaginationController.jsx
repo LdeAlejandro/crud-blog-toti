@@ -26,7 +26,7 @@ const PaginationControls = (
         
         disabled={!hasPrevPage}
         onClick={() => {
-          router.push(`/?page=${Number(page) - 1}&per_page=${per_page}&searchTerm=${searchTerm}&sort=${sortOrder}`)
+          router.push(`/?page=${Number(page) - 1}&per_page=${per_page}&search=${searchTerm}&sort=${sortOrder}`)
         }}>
          &le;
       </button>
@@ -39,7 +39,7 @@ const PaginationControls = (
         
         disabled={!hasNextPage}
         onClick={() => {
-          router.push(`/?page=${Number(page) + 1}&per_page=${per_page}&searchTerm=${searchTerm}&sort=${sortOrder}`)
+          router.push(`/?page=${Number(page) + 1}&per_page=${per_page}&search=${searchTerm}&sort=${sortOrder}`)
         }}>
          &ge;
       </button>

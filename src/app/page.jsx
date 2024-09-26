@@ -17,8 +17,8 @@ const Blog  = async({ searchParams }) => {
   const page = searchParams['page'] ?? '1';
   const per_page = searchParams['per_page'] ?? '10';
   const searchTerm = searchParams['search'] ?? '';
-  const paginationUrlApiRequest =`${process.env.SITE_URL}/api/posts?page=${page}&per_page=${per_page}`;
- const urlContrusctor = new URL(`${process.env.SITE_URL}/?page=${page}&per_page=${per_page}`);
+  const paginationUrlApiRequest =`${process.env.SITE_URL}/api/posts?page=${page}&per_page=${per_page}&search=${searchTerm}`;
+ const urlContrusctor = (`${process.env.SITE_URL}/?page=${page}&per_page=${per_page}&search=${searchTerm}`);
 
     const fetchPosts = async () => {
       try {
@@ -82,7 +82,7 @@ const Blog  = async({ searchParams }) => {
         <Button btnClass={`${styles.filterButton} ${sortOrder === "oldest" ? styles.active : ""}`} text={"Mais antigos"} url={` ${urlContrusctor}&sort=oldest`}/>
       
       </div>
-      <SearchPost/>
+      <SearchPost urlC={urlContrusctor}/>
 
       {/* Verificar se não há posts */}
       {totalPosts === 0 ? (

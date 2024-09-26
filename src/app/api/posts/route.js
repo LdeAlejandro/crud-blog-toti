@@ -14,12 +14,12 @@ export const GET = async (request) => {
        const url = new URL(request.url);
        const user = url.searchParams.get("user");
        console.log('backend user: ', user);
-       const page = url.searchParams.get("page");
+       const page = url.searchParams.get("page")|| 1;
        const searchTerm = url.searchParams.get("search");
-       console.log('backend per page: ', url.searchParams.get("per_page"));
-       const per_page = url.searchParams.get("per_page")< 11 ? url.searchParams.get("per_page") : 5;
+       console.log('searchTerm ' , searchTerm)
+       const per_page = Math.min(parseInt(url.searchParams.get("per_page")) || 5, 10);
        const limit =  parseInt(per_page); 
-       const skip = (page - 1 ) * per_page;
+       const skip = (page - 1 ) * per_page ||0;
     
        // if we need to get all the posts 
        if (!user && searchTerm ==="" ||!user && !searchTerm) {
@@ -31,7 +31,7 @@ export const GET = async (request) => {
         
         const totalPosts = await Post.countDocuments();
 
-        return new NextResponse(JSON.stringify({posts, totalPosts}), {status: 201});
+        return new NextResponse(JSON.stringify({posts, totalPosts}), {status: 200});
        } else if (!user && searchTerm && searchTerm !=="") {
         
         const posts = await Post.find({
@@ -43,19 +43,39 @@ export const GET = async (request) => {
         .skip(skip)
         .limit(limit);
 
-        if(posts ==null){
+        if(!posts.length){
             return new NextResponse(JSON.stringify("No matching posts",{ totalPosts: 0}), {status: 404});
         }
         
-        const totalPosts = posts.countDocuments();
+        const totalPosts = await posts.countDocuments();
 
         return new NextResponse(JSON.stringify({posts, totalPosts}), {status: 200});
+       }else if(user && searchTerm && searchTerm !=="") {
+        
+        const posts = await Post.find({ 
+            name:user,
+            //$option: i para ignorar mayusculas e minusculas
+            title:{$regex: searchTerm, $options:"i"},
+            content:{$regex: searchTerm, $options:"i"}
+        })
+        .sort({createdAt: -1})
+        .skip(skip)
+        .limit(limit);
+
+        if(!posts.length){
+            return new NextResponse(JSON.stringify("No matching posts",{ totalPosts: 0}), {status: 404});
+        }
+        
+        const totalPosts = await posts.countDocuments();
+
+        return new NextResponse(JSON.stringify({posts, totalPosts}), {status: 200});
+       
        }else {
         // if we need to get all the posts for user page without any parameters
         const posts = await Post.find({ name: user })
         .sort({createdAt: -1})
-        .skip(skip)
-        .limit(limit);
+        .skip(skip )
+        .limit(limit );
 
         const totalPosts = await Post.countDocuments({name: user});
 

@@ -9,12 +9,14 @@ const SearchPost = ({urlC}) => {
     
   const router = useRouter()
   const searchParams = useSearchParams()
+
   const sortOrder = searchParams.get('sort') || 'newest';
 
   const searchPost= (e) => {
     e.preventDefault();
     const searchValue = e.target[0].value;
-    router.push(`${urlC}${searchValue}&sort=${sortOrder}`);
+    router.push(`${urlC}&search=${searchValue}&sort=${sortOrder}`);
+   
       
   }
 

@@ -18,7 +18,8 @@ const Blog  = async({ searchParams }) => {
   const per_page = searchParams['per_page'] ?? '10';
   const searchTerm = searchParams['search'] ?? '';
   const paginationUrlApiRequest =`${process.env.SITE_URL}/api/posts?page=${page}&per_page=${per_page}&search=${searchTerm}`;
- const urlContrusctor = (`${process.env.SITE_URL}/?page=${page}&per_page=${per_page}&search=${searchTerm}`);
+ const urlForSearchcomponent = (`${process.env.SITE_URL}/?page=${page}&per_page=${per_page}`);
+ const urlForSorterComponent = (`${process.env.SITE_URL}/?page=${page}&per_page=${per_page}&search=${searchTerm}`);
 
     const fetchPosts = async () => {
       try {
@@ -48,7 +49,7 @@ const Blog  = async({ searchParams }) => {
     }
     
     if (!Array.isArray(posts) || posts.length === 0) {
-      return <p>No posts available.</p>;
+      return <p>Nenhum resultado encontrado para a sua busca.</p>;
     }
 
    
@@ -78,11 +79,11 @@ const Blog  = async({ searchParams }) => {
     <div>
       {/* Barra de filtros */}
       <div className={styles.filterBar}>
-        <Button btnClass={`${styles.filterButton} ${sortOrder === "newest" ? styles.active : ""}`} text={"Mais recentes"} url={`${urlContrusctor}&sort=newest`}/>
-        <Button btnClass={`${styles.filterButton} ${sortOrder === "oldest" ? styles.active : ""}`} text={"Mais antigos"} url={` ${urlContrusctor}&sort=oldest`}/>
+        <Button btnClass={`${styles.filterButton} ${sortOrder === "newest" ? styles.active : ""}`} text={"Mais recentes"} url={`${urlForSorterComponent}&sort=newest`}/>
+        <Button btnClass={`${styles.filterButton} ${sortOrder === "oldest" ? styles.active : ""}`} text={"Mais antigos"} url={` ${urlForSorterComponent}&sort=oldest`}/>
       
       </div>
-      <SearchPost urlC={urlContrusctor}/>
+      <SearchPost urlC={urlForSearchcomponent}/>
 
       {/* Verificar se não há posts */}
       {totalPosts === 0 ? (

@@ -36,18 +36,26 @@ export const GET = async (request) => {
         
         const posts = await Post.find({
             //$option: i para ignorar mayusculas e minusculas
-            title:{$regex: searchTerm, $options:"i"},
-            content:{$regex: searchTerm, $options:"i"}
+            $or: [
+            {title:{$regex: searchTerm, $options:"i"}},
+            {content:{$regex: searchTerm, $options:"i"}}
+            ]
         })
         .sort({createdAt: -1})
         .skip(skip)
         .limit(limit);
 
         if(!posts.length){
-            return new NextResponse(JSON.stringify("No matching posts",{ totalPosts: 0}), {status: 404});
+            return new NextResponse(JSON.stringify("No matching posts",{ totalPosts: 0}), {status: 200});
         }
         
-        const totalPosts = await posts.countDocuments();
+        const totalPosts = await Post.countDocuments({
+            //$option: i para ignorar mayusculas e minusculas
+            $or: [
+            {title:{$regex: searchTerm, $options:"i"}},
+            {content:{$regex: searchTerm, $options:"i"}}
+            ]
+        });
 
         return new NextResponse(JSON.stringify({posts, totalPosts}), {status: 200});
        }else if(user && searchTerm && searchTerm !=="") {
@@ -63,10 +71,17 @@ export const GET = async (request) => {
         .limit(limit);
 
         if(!posts.length){
-            return new NextResponse(JSON.stringify("No matching posts",{ totalPosts: 0}), {status: 404});
+            return new NextResponse(JSON.stringify("No matching posts",{ totalPosts: 0}), {status: 200});
         }
         
-        const totalPosts = await posts.countDocuments();
+        const totalPosts = await Post.countDocuments({
+            name:user,
+            //$option: i para ignorar mayusculas e minusculas
+            $or: [
+            {title:{$regex: searchTerm, $options:"i"}},
+            {content:{$regex: searchTerm, $options:"i"}}
+            ]
+        });
 
         return new NextResponse(JSON.stringify({posts, totalPosts}), {status: 200});
        
@@ -82,7 +97,8 @@ export const GET = async (request) => {
         return new NextResponse(JSON.stringify({posts, totalPosts}), {status: 200});
        }
     }catch(err){
-        return new NextResponse("Database Error",{status: 500});
+        console.error("Database Error: ", err);
+        return new NextResponse("Database Error" ,{status: 500});
     }
 }
 

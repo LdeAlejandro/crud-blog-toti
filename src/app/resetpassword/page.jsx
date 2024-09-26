@@ -43,7 +43,6 @@ const ResetPassword = () => {
       ...prevState,
       [id]: value,
     }));
-    console.log(formData);
   };
 
   const handleReset = async (e) => {
@@ -68,14 +67,21 @@ const ResetPassword = () => {
        if(res.ok){
         console.log("ok")
        }
-        if (res.status === 401) {
-          setPasswordMsg("Senha incorreta");
-         } else {
+
+       console.log(res)
+        if(res.status === 200){
           setPasswordMsg("Senha atualizada com sucesso");
           setTimeout(() => {
             router.push("account/login");
         }, 3000); 
          
+        }else if (res.status === 401) {
+          setPasswordMsg("Senha incorreta");
+         }
+         else if (res.status === 400) {
+          setPasswordMsg("Houve um erro, solicite reset de sua senha novamente.");
+         } else {
+          setPasswordMsg("Houve um erro, solicite reset de sua senha novamente.");
         }
       } catch (error) {
         setPasswordMsg("Erro ao mudar a senha");

@@ -48,6 +48,16 @@
     justify-items: center; 
   }
   
+  .author {
+    display: flex; 
+    justify-content: center; 
+    width: 100%;
+    font-size: 24px; 
+    color: #333333; 
+    
+  
+}
+  
   
   .postsWrapper {
     min-height: calc(100vh - 200px); 
@@ -198,7 +208,8 @@
   .createPostLink:hover {
     color: #0056a3;
   }
-  
+
+
   
   @media (max-width: 600px) {
     .mainContainer {

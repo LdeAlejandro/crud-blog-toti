@@ -21,7 +21,8 @@ const ManagePostButtons = ({username, postId}) => {
         });
         if (res.ok) {
             alert("O post foi deletado com sucesso")
-            router.push("/")
+            await router.push("/")
+            router.refresh();
           } else {
             alert("Erro ao deletar o post.");
           }

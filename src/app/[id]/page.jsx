@@ -5,6 +5,7 @@ import connect from "@/utils/db";
 import Post from "@/models/Post";
 import ManagePostButtons from "@/components/ManagePostButtons/ManagePostButtons";
 import Link from "next/link";
+import ButtonRouterRefresh from "@/components/ButtonRouterRefresh/ButtonRouterRefresh";
 
 
 const SinglePostPage = async ({ params }) => {
@@ -32,9 +33,10 @@ const SinglePostPage = async ({ params }) => {
                 height={40}
                 className={styles.avatar}
               /> */}
-              <Link href={`/posts/${post.name}`}>
-                <span className={styles.username}>Author: {post.name}</span>
-              </Link>
+                <ButtonRouterRefresh text={<span className={styles.username}><strong>Author:</strong> {post.name}</span>} url={`/posts/${post.name}`} btnClass={styles.username} />
+              {/* <Link href={`/posts/${post.name}`}>
+                <span className={styles.username}><strong>Author:</strong> {post.name}</span>
+              </Link> */}
             </div>
           </div>
           <div className={styles.imageContainer}>

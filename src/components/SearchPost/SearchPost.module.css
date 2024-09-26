@@ -1,0 +1,46 @@
+.container {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    width: 100%;
+  }
+  
+  .container input{
+    padding: 10px 40px 10px 10px; 
+    max-height: 30px;
+    border: 1px solid #cdc7bb;
+    border-radius: 4px;
+    font-size: 16px;
+    color: #333333;
+    outline: none;
+    transition: border-color 0.3s ease;
+  }
+
+  .container input::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  
+  .container input:focus {
+    border-color: #333333;
+  }
+  
+  .container button {
+    position: relative;
+    max-height: 30px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    margin-left: -40px;
+  }
+
+  .container button .icon {
+    transition: color 0.3s ease;
+    color: #333333;
+  }
+  .container button:hover .icon {
+    color:  lightgray;
+  }
+
+
+  

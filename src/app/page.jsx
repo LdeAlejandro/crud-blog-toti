@@ -4,35 +4,50 @@ import styles from "./page.module.css";
 import Link from "next/link";
 import Image from "next/image";
 import Button from "@/components/Button/Button";
+import PaginationControls from "@/components/PaginationController/PaginationController";
+import SearchPost from "@/components/SearchPost/SearchPost";
+
 const Blog  = async({ searchParams }) => {
 
   let posts
   let error = null;
+  let data;
+  let totalPosts;
   const sortOrder = searchParams.sort || "newest"; 
+  const page = searchParams['page'] ?? '1';
+  const per_page = searchParams['per_page'] ?? '10';
+  const searchTerm = searchParams['search'] ?? '';
+  const paginationUrlApiRequest =`${process.env.SITE_URL}/api/posts?page=${page}&per_page=${per_page}&search=${searchTerm}`;
+ const urlForSearchcomponent = (`${process.env.SITE_URL}/?page=${page}&per_page=${per_page}`);
+ const urlForSorterComponent = (`${process.env.SITE_URL}/?page=${page}&per_page=${per_page}&search=${searchTerm}`);
+
     const fetchPosts = async () => {
       try {
-        const res = await fetch( "https://crud-blog-toti.vercel.app/api/posts" , { next: { revalidate: 60 } });
+
+        const res = await fetch( `${paginationUrlApiRequest}` , { next: { revalidate: 60 } });
+        
         if (!res.ok) {
           throw new Error("Falha ao buscar posts");
         }
-         posts  = await res.json();
-
-
-
+         const response  = await res.json();
+         data = response
+         posts = response.posts;
+         totalPosts= Number(response.totalPosts);
+        
       } catch (err) {
         error = err.message;
      
       }
-    };
+    }; 
 
     await fetchPosts();
-    
+
     if (error) {
       return <p>Error: {error}</p>;
     }
     
     if (!Array.isArray(posts) || posts.length === 0) {
-      return <p>No posts available.</p>;
+      return <p>Nenhum resultado encontrado para a sua busca.</p>;
     }
 
    
@@ -42,8 +57,16 @@ const Blog  = async({ searchParams }) => {
       ? new Date(b.createdAt) - new Date(a.createdAt)
       : new Date(a.createdAt) - new Date(b.createdAt);
   })
+  console.log("*****\n",sortedPosts[0].title)
 
+   // mocked, skipped and limited in the real app
+   const start = (Number(page) - 1) * Number(per_page) // 0, 5, 10 ...
+   const end = start + Number(per_page) // 5, 10, 15 ...
 
+   const entries = sortedPosts.slice(start, end)
+  
+
+  
   const calculateReadingTime = (text) => {
     const wordsPerMinute = 200;
     const textLength = text.split(" ").length;
@@ -55,20 +78,14 @@ const Blog  = async({ searchParams }) => {
     <div>
       {/* Barra de filtros */}
       <div className={styles.filterBar}>
-        <Button btnClass={`${styles.filterButton} ${sortOrder === "newest" ? styles.active : ""}`} text={"Mais recentes"} url={"?sort=newest"}/>
-        <Button btnClass={`${styles.filterButton} ${sortOrder === "oldest" ? styles.active : ""}`} text={"Mais antigo"} url={"?sort=oldest"}/>
-        {/* <Link   href = "?sort=newest">
-          Mais recentes
-        </Link>*/} 
-        {/* <button className={sortOrder === "oldest" ? styles.active : ""}>
-        <Link href="?sort=oldest">
-          Mais antigos
-        </Link>
-        </button> */}
+        <Button btnClass={`${styles.filterButton} ${sortOrder === "newest" ? styles.active : ""}`} text={"Mais recentes"} url={`${urlForSorterComponent}&sort=newest`}/>
+        <Button btnClass={`${styles.filterButton} ${sortOrder === "oldest" ? styles.active : ""}`} text={"Mais antigos"} url={` ${urlForSorterComponent}&sort=oldest`}/>
+      
       </div>
+      <SearchPost urlC={urlForSearchcomponent}/>
 
       {/* Verificar se não há posts */}
-      {posts.length === 0 ? (
+      {totalPosts === 0 ? (
         <div className={styles.noPostsMessage}>
           <h2>Não há posts disponíveis!</h2>
           <p>
@@ -125,6 +142,7 @@ const Blog  = async({ searchParams }) => {
               </Link>
             ))}
           </div>
+          <PaginationControls hasNextPage={end < totalPosts} hasPrevPage={start > 0 } totalPages={totalPosts} perPagePost={per_page}/>
         </div>
       )}
 

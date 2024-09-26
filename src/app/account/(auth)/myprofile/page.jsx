@@ -104,6 +104,7 @@ const UserProfile = () => {
   const requestAccountVerification= async()=>{
    
     const res = await RequestEmailVerification(session.user.email);
+    console.log("request")
 
     if(res.status === 200){
   

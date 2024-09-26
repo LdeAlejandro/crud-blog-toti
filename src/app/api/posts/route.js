@@ -13,6 +13,7 @@ export const GET = async (request) => {
       
        const url = new URL(request.url);
        const user = url.searchParams.get("user");
+       console.log('backend user: ', user);
        const page = url.searchParams.get("page");
        const searchTerm = url.searchParams.get("search");
        console.log('backend per page: ', url.searchParams.get("per_page"));
@@ -20,8 +21,8 @@ export const GET = async (request) => {
        const limit =  parseInt(per_page); 
        const skip = (page - 1 ) * per_page;
     
-       // if we need to get all the posts with username === user
-       if (!user && searchTerm ==="" || !searchTerm) {
+       // if we need to get all the posts 
+       if (!user && searchTerm ==="" ||!user && !searchTerm) {
         
         const posts = await Post.find({})
         .sort({createdAt: -1})
@@ -30,7 +31,7 @@ export const GET = async (request) => {
         
         const totalPosts = await Post.countDocuments();
 
-        return new NextResponse(JSON.stringify({posts, totalPosts}), {status: 200});
+        return new NextResponse(JSON.stringify({posts, totalPosts}), {status: 201});
        } else if (!user && searchTerm && searchTerm !=="") {
         
         const posts = await Post.find({
@@ -46,13 +47,19 @@ export const GET = async (request) => {
             return new NextResponse(JSON.stringify("No matching posts",{ totalPosts: 0}), {status: 404});
         }
         
-        const totalPosts = await Post.countDocuments();
+        const totalPosts = posts.countDocuments();
 
         return new NextResponse(JSON.stringify({posts, totalPosts}), {status: 200});
-       } else {
-        // if we need to get all the posts for home page without any paraneters
-        const posts = await Post.find({ name: user });
-        return new NextResponse(JSON.stringify(posts), {status: 200});
+       }else {
+        // if we need to get all the posts for user page without any parameters
+        const posts = await Post.find({ name: user })
+        .sort({createdAt: -1})
+        .skip(skip)
+        .limit(limit);
+
+        const totalPosts = await Post.countDocuments({name: user});
+
+        return new NextResponse(JSON.stringify({posts, totalPosts}), {status: 200});
        }
     }catch(err){
         return new NextResponse("Database Error",{status: 500});

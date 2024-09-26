@@ -33,7 +33,7 @@ const SinglePostPage = async ({ params }) => {
                 className={styles.avatar}
               /> */}
               <Link href={`/posts/${post.name}`}>
-                <span className={styles.username}>Author: {post.name}</span>
+                <span className={styles.username}><strong>Author:</strong> {post.name}</span>
               </Link>
             </div>
           </div>

@@ -1,0 +1,36 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #e0e0e0;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.container button {
+  background-color: #cdc7bb;
+  color: #333333;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin: 0 5px;
+}
+
+.container button:disabled {
+  background-color: #ccc;
+  color: #666;
+  cursor:default;
+}
+
+.container button:hover:not(:disabled) {
+  background-color: #b3a59d;
+}
+
+.container text {
+  color: #333333;
+  font-size: 16px;
+  margin: 0 10px;
+}

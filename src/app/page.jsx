@@ -16,6 +16,7 @@ const Blog  = async({ searchParams }) => {
   const sortOrder = searchParams.sort || "newest"; 
   const page = searchParams['page'] ?? '1';
   const per_page = searchParams['per_page'] ?? '10';
+  const searchTerm = searchParams['search'] ?? '';
   const paginationUrlApiRequest =`${process.env.SITE_URL}/api/posts?page=${page}&per_page=${per_page}`;
  const urlContrusctor = new URL(`${process.env.SITE_URL}/?page=${page}&per_page=${per_page}`);
 

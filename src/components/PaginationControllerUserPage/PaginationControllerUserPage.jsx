@@ -8,7 +8,8 @@ const PaginationControls = (
     hasNextPage,
     hasPrevPage,
     totalPages,
-    perPagePost
+    perPagePost,
+    username,
   }
 ) => {
     
@@ -17,29 +18,30 @@ const PaginationControls = (
 
   const page = searchParams.get('page') ?? '1'
   const per_page = searchParams.get('per_page') ?? perPagePost
-  const searchTerm =searchParams.get('search') ?? "";
+  const searchTerm =searchParams.get('search') ?? "5";
   const sortOrder =searchParams.get('sort') ?? "newest";
-
+  console.log("pagination",  totalPages / Number(per_page))
   return (
     <div className={styles.container}>
       <button
         
         disabled={!hasPrevPage}
         onClick={() => {
-          router.push(`/?page=${Number(page) - 1}&per_page=${per_page}&searchTerm=${searchTerm}&sort=${sortOrder}`)
+          router.push(`/posts/${username}?page=${Number(page) - 1}&per_page=${per_page}&searchTerm=${searchTerm}&sort=${sortOrder}`)
         }}>
          &le;
       </button>
 
       <div>
         {page} / {Math.ceil(totalPages / Number(per_page))}
+       
       </div>
 
       <button
         
         disabled={!hasNextPage}
         onClick={() => {
-          router.push(`/?page=${Number(page) + 1}&per_page=${per_page}&searchTerm=${searchTerm}&sort=${sortOrder}`)
+          router.push(`/posts/${username}?page=${Number(page) + 1}&per_page=${per_page}&searchTerm=${searchTerm}&sort=${sortOrder}`)
         }}>
          &ge;
       </button>

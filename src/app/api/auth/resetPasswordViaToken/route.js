@@ -177,7 +177,7 @@ export const POST = async (request) => {
               </body>
               </html>`;
       
-      SendMail(user.email, 'Resetar senha', `Resete sua senha.: ${resetUrl}`, resetPasswordViaTokenMsg)
+      await SendMail(user.email, 'Resetar senha', `Resete sua senha.: ${resetUrl}`, resetPasswordViaTokenMsg)
       return new NextResponse("Reset password token generated", { status: 200 });
 
     } else if (user.verifiedAccount !== true) {

@@ -14,9 +14,6 @@ export default function Register() {
   const router = useRouter();
   const session = useSession();
 
-
-
-
   const onChangeHandle = (e) => {
     const { name, value } = e.target;
     setFormData((prevState) => ({ ...prevState, [name]: value }));
@@ -43,13 +40,19 @@ export default function Register() {
       novosErros.senha = 'Por favor, insira uma senha.';
     }
     
-    const isValid = password.length >= 8 &&
-                    /[A-Z]/.test(password) &&
-                    /[a-z]/.test(password) &&
-                    /[0-9]/.test(password) &&
-                    /[!@#$%^&*(),.?":{}|<>%]/.test(password);
+    const isValid =
+      password.length >= 8 &&
+      /[A-Z]/.test(password) &&
+      /[a-z]/.test(password) &&
+      /[0-9]/.test(password) &&
+      //permitidos
+      //! @ # $ % ^ & * ( ) , . ? " { } | < >
+      //nao permitidos
+      //` ~ ' - + = [ ] \ ; : /
+      /[!@#$%^&*(),.?":{}|<>%]/.test(password);
 
     if (!isValid) {
+
       novosErros.senha ='A senha deve ter pelo menos 8 caracteres, incluir letras maiúsculas e minúsculas, um número e um caractere especial.';
     } 
 
@@ -60,7 +63,7 @@ export default function Register() {
     if (Object.keys(novosErros).length > 0) {
       setTimeout(() => {
         setErro({});
-      }, 3000); 
+      }, 6000); 
       return;
     }
 

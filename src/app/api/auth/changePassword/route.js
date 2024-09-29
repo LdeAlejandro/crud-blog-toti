@@ -101,7 +101,7 @@ export const PATCH = async (request) => {
     }
   } else {
     console.log("User or email does not exist");
-    return new NextResponse("User or email already exist", {
+    return new NextResponse("User or email does not exist", {
       status: 409,
     });
   }

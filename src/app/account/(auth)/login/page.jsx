@@ -13,8 +13,18 @@ const Login = () => {
   const [erro, setErro] = useState({}); 
   const [mensagemSucesso, setMensagemSucesso] = useState(''); 
 
+ 
+
   useEffect(() => {
+    if(window.location.href.includes("error")){
+      setErro({login:"Email ou senha invalidos."});
+      setTimeout(() => {
+        setErro({});
+      }, 3000);
+  }
+    
     if (status === "authenticated") {
+      setMensagemSucesso("Sessão iniciada com sucesso");
       router.push("/");
     }
   }, [status, router]);
@@ -43,7 +53,7 @@ const Login = () => {
       setErro(novosErros);
       setTimeout(() => {
         setErro({});
-      }, 3000); 
+      }, 6000); 
       return;
     }   
     signIn("credentials", { email, password: senha });
@@ -79,6 +89,8 @@ const Login = () => {
           <button type="submit" className={styles.button}>
             Logar
           </button>
+          {erro.login && <p className={styles.error}>{erro.login}</p>}
+          {mensagemSucesso && <p className={styles.sucess}>{mensagemSucesso}</p>}
         </form>
 
         <div className={styles.orDivider}>

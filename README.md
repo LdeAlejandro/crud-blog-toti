@@ -24,8 +24,8 @@ npm run dev
   - George: HTML e CSS, rascunho inicial de home, página de reset password via token, request email verification e página de verificação de conta.
   - Solangelis: HTML e CSS geral da major parte do site.
 
-- Backend: 
-  - Aleksander: Roteamento e requisição dos posts, edição e eliminação dos mesmos, requisição do front end para os dados do backend dos posts.
+- Backend + FrontEnd: 
+  - Aleksander: Roteamento e requisição dos posts; criação de posts para usuários logados; avaliação dos direitos do usuário logado para acesso e realização das funcionalidades de edição e eliminação; requisição do front-end, recebimento dos dados do back-end do banco de dados dos posts e renderização no front-end para a página inicial, de post único e solicitação para renderizar os posts de um usuário específico.
   - Alejandro: Roteamento e requisição da autenticação de usuários (cadastro, login, reset de senha, verificação da conta), requisição do front end para os dados do backend dos usuários, paginação e ajuste do roteamento dos posts para filtrar por termo de pesquisa e paginação.
 
 ---

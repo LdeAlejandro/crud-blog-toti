@@ -8,7 +8,8 @@ const PaginationControls = (
     hasNextPage,
     hasPrevPage,
     totalPages,
-    perPagePost
+    perPagePost,
+    username
   }
 ) => {
     
@@ -23,13 +24,16 @@ const PaginationControls = (
   return (
     <div className={styles.container}>
       <button
-        
-        disabled={!hasPrevPage}
-        onClick={() => {
-          router.push(`/?page=${Number(page) - 1}&per_page=${per_page}&search=${searchTerm}&sort=${sortOrder}`)
-        }}>
-         &le;
-      </button>
+  disabled={!hasPrevPage}
+  onClick={() => {
+    const basePath = username ? `/posts/${username}` : '/';
+    router.push(`${basePath}?page=${Number(page) - 1}&per_page=${per_page}&search=${searchTerm}&sort=${sortOrder}`);
+  }}
+>
+  &le;
+</button>
+     
+
 
       <div>
         {page} / {Math.ceil(totalPages / Number(per_page))}
@@ -39,7 +43,8 @@ const PaginationControls = (
         
         disabled={!hasNextPage}
         onClick={() => {
-          router.push(`/?page=${Number(page) + 1}&per_page=${per_page}&search=${searchTerm}&sort=${sortOrder}`)
+          const basePath = username ? `/posts/${username}` : '/';
+          router.push(`${basePath}?page=${Number(page) + 1}&per_page=${per_page}&search=${searchTerm}&sort=${sortOrder}`);
         }}>
          &ge;
       </button>

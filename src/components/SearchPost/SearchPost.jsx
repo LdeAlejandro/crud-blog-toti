@@ -5,18 +5,24 @@ import styles from './SearchPost.module.css';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
-const SearchPost = ({urlC}) => {
+const SearchPost = () => {
     
   const router = useRouter()
   const searchParams = useSearchParams()
 
-  const sortOrder = searchParams.get('sort') || 'newest';
 
   const searchPost= async(e) => {
     e.preventDefault();
     const searchValue = e.target[0].value;
-    await router.push(`${urlC}&search=${searchValue}&sort=${sortOrder}`);
-    router.refresh();
+    const params = new URLSearchParams(searchParams.toString());
+
+    // Atualize ou adicione o parâmetro 'sort'
+    params.set('search', searchValue);
+    params.set('page', '1');
+
+    // Atualize a URL, preservando os outros parâmetros
+    router.replace(`?${params.toString()}`)
+    await router.refresh();
       
   }
 
